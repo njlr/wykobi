@@ -36,6 +36,14 @@ namespace wykobi
          template <typename OutputIterator>
          polygon_triangulate(const polygon<T,2>& polygon, OutputIterator out)
          {
+            if (polygon.size() < 3)
+               return;
+            else if (polygon.size() == 3)
+            {
+               (*out++) = make_triangle(polygon[0], polygon[1], polygon[2]);
+               return;
+            }
+
             wykobi::polygon<T,2> internal_polygon;
 
             internal_polygon.reserve(polygon.size());

@@ -38,6 +38,9 @@ namespace wykobi
          {
             const std::size_t axis_count = 36;
 
+            if (polygon.size() == 0)
+               return;
+
             std::vector<T> value;
             value.reserve(axis_count);
 

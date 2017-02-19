@@ -41,6 +41,7 @@ namespace wykobi
             if (std::distance(begin,end) <= 3)
             {
                std::copy(begin,end,out);
+               return;
             }
 
             std::vector<gs_point> point;
@@ -156,9 +157,17 @@ namespace wykobi
          template <typename InputIterator, typename OutputIterator>
          convex_hull_jarvis_march(InputIterator begin, InputIterator end, OutputIterator out)
          {
+            const std::size_t point_count = std::distance(begin,end);
+
+            if (point_count <= 3)
+            {
+               std::copy(begin,end,out);
+               return;
+            }
+
             std::vector< point2d<T> >point_list;
 
-            point_list.reserve(std::distance(begin,end));
+            point_list.reserve(point_count);
 
             point2d<T> lowest_point = *begin;
 
@@ -226,11 +235,12 @@ namespace wykobi
          template <typename InputIterator, typename OutputIterator>
          convex_hull_melkman(InputIterator begin, InputIterator end, OutputIterator out)
          {
-            std::size_t point_count = std::distance(begin,end);
+            const std::size_t point_count = std::distance(begin,end);
 
             if (point_count <= 3)
             {
                std::copy(begin,end,out);
+               return;
             }
 
             std::deque< point2d<Type> > deq;

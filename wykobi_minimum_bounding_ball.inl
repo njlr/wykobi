@@ -44,10 +44,16 @@ namespace wykobi
 
             switch (point_count)
             {
-               case 0 : { return; } break;
-               case 1 : { circle = make_circle(*begin,T(0.0)); return; } break;
-               case 2 : { circle = make_circle(*begin,*(begin + 1)); return; } break;
-               case 3 : { circle = make_circle(*begin,*(begin + 1),*(begin + 2)); return; } break;
+               case 0 : return;
+
+               case 1 : circle = make_circle(*begin,T(0.0));
+                        return;
+
+               case 2 : circle = make_circle(*begin,*(begin + 1));
+                        return;
+
+               case 3 : circle = make_circle(*begin,*(begin + 1),*(begin + 2));
+                        return;
             }
 
             std::vector< point2d<T> > point_list;
@@ -142,10 +148,16 @@ namespace wykobi
          {
             switch (std::distance(begin,end))
             {
-               case 0 : { return; } break;
-               case 1 : { circle = make_circle(*begin,T(0.0)); return; } break;
-               case 2 : { circle = make_circle(*begin,*(begin + 1)); return; } break;
-               case 3 : { circle = make_circle(*begin,*(begin + 1),*(begin + 2)); return; } break;
+               case 0 : return;
+
+               case 1 : circle = make_circle(*begin,T(0.0));
+                        return;
+
+               case 2 : circle = make_circle(*begin,*(begin + 1));
+                        return;
+
+               case 3 : circle = make_circle(*begin,*(begin + 1),*(begin + 2));
+                        return;
             }
 
             circle = degenerate_circle<T>();

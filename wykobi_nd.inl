@@ -792,6 +792,9 @@ namespace wykobi
    template <typename T, std::size_t D>
    inline segment<T,D> project_onto_axis(const polygon<T,D>& polygon, const line<T,D>& axis)
    {
+      if (polygon.size() == 0)
+         return degenerate_segmentnd<T,D>();
+
       std::vector< pointnd<T,D> > point_list;
 
       point_list.reserve(polygon.size());

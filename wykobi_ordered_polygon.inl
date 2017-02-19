@@ -38,6 +38,14 @@ namespace wykobi
          template <typename InputIterator, typename OutputIterator>
          ordered_polygon(InputIterator begin, InputIterator end, OutputIterator out)
          {
+            const std::size_t point_count = std::distance(begin,end);
+
+            if (point_count <= 3)
+            {
+               std::copy(begin,end,out);
+               return;
+            }
+
             std::vector< o_point > point;
 
             for (InputIterator it = begin; it != end; ++it)

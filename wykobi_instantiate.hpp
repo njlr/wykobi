@@ -24,6 +24,7 @@
 
 #include "wykobi.hpp"
 #include "wykobi_nd.hpp"
+#include "wykobi_algorithm.hpp"
 #include "wykobi_utilities.hpp"
 
 
@@ -1206,8 +1207,7 @@ namespace wykobi
       template polygon<T,2> make_polygon<T>(const triangle<T,2>& triangle);\
       template polygon<T,2> make_polygon<T>(const quadix<T,2>& quadix);\
       template polygon<T,2> make_polygon<T>(const rectangle<T>& rectangle);\
-      template polygon<T,2> make_polygon<T>(const circle<T>& circle, const unsigned int point_count);
-
+      template polygon<T,2> make_polygon<T>(const circle<T>& circle, const unsigned int point_count);\
 
    #define INSTANTIATE_WYKOBI_ND(T, D, OutputIterator)\
       template bool parallel<T,D>(const line<T,D>& line1, const line<T,D>& line2);\
@@ -1348,6 +1348,41 @@ namespace wykobi
       template std::ostream& operator<< <T,D>(std::ostream& os, const triangle<T,D>& triangle);\
       template std::ostream& operator<< <T,D>(std::ostream& os, const quadix<T,D>& quadix);    \
 
+
+   #define INSTANTIATE_WYKOBI_ALGORITHMS(T,K)                                                                                                \
+   std::vector<point2d<T>    > K##vec2d;                                                                                                     \
+   std::vector<point3d<T>    > K##vec3d;                                                                                                     \
+   std::vector<circle<T>     > K##clist;                                                                                                     \
+   std::vector<segment<T,2>  > K##s2dlist;                                                                                                   \
+   std::vector<segment<T,3>  > K##s3dlist;                                                                                                   \
+   std::vector<triangle<T,2> > K##t2dlist;                                                                                                   \
+   rectangle<T>                K##rect2d;                                                                                                    \
+   polygon<T,2>                K##poly2d;                                                                                                    \
+   circle<T>                   K##circle2d;                                                                                                  \
+   sphere<T>                   K##sphere3d;                                                                                                  \
+                                                                                                                                             \
+   algorithm::isotropic_normalization< point2d<T> >                          K##obj00(K##vec2d.begin(),K##vec2d.end());                      \
+   algorithm::isotropic_normalization< point3d<T> >                          K##obj01(K##vec3d.begin(),K##vec3d.end());                      \
+   algorithm::convex_hull_graham_scan< point2d<T> >                          K##obj02(K##vec2d.begin(),K##vec2d.end(),K##vec2d.begin());     \
+   algorithm::convex_hull_jarvis_march< point2d<T> >                         K##obj03(K##vec2d.begin(),K##vec2d.end(),K##vec2d.begin());     \
+   algorithm::convex_hull_melkman< point2d<T> >                              K##obj04(K##vec2d.begin(),K##vec2d.end(),K##vec2d.begin());     \
+   algorithm::covariance_matrix< point2d<T> >                                K##obj05;                                                       \
+   algorithm::covariance_matrix< point3d<T> >                                K##obj06;                                                       \
+   algorithm::ordered_polygon< point2d<T> >                                  K##obj07(K##vec2d  .begin(),K##vec2d  .end(),K##vec2d.begin()); \
+   algorithm::naive_group_intersections< segment<T,2> >                      K##obj08(K##s2dlist.begin(),K##s2dlist.end(),K##vec2d.begin()); \
+   algorithm::naive_group_intersections< segment<T,3> >                      K##obj09(K##s3dlist.begin(),K##s3dlist.end(),K##vec3d.begin()); \
+   algorithm::naive_group_intersections< circle<T> >                         K##obj10(K##clist  .begin(),K##clist  .end(),K##vec2d.begin()); \
+   algorithm::naive_minimum_bounding_ball< point2d<T> >                      K##obj11(K##vec2d  .begin(),K##vec2d  .end(),K##circle2d);      \
+   algorithm::naive_minimum_bounding_ball_with_ch_filter< point2d<T> >       K##obj12(K##vec2d  .begin(),K##vec2d  .end(),K##circle2d);      \
+   algorithm::randomized_minimum_bounding_ball< point2d<T> >                 K##obj13(K##vec2d  .begin(),K##vec2d  .end(),K##circle2d);      \
+   algorithm::randomized_minimum_bounding_ball_with_ch_filter < point2d<T> > K##obj14(K##vec2d  .begin(),K##vec2d  .end(),K##circle2d);      \
+   algorithm::ritter_minimum_bounding_ball< point2d<T> >                     K##obj15(K##vec2d  .begin(),K##vec2d  .end(),K##circle2d);      \
+   algorithm::ritter_minimum_bounding_ball< point3d<T> >                     K##obj16(K##vec3d  .begin(),K##vec3d  .end(),K##sphere3d);      \
+   algorithm::ritter_minimum_bounding_ball_with_ch_filter< point2d<T> >      K##obj19(K##vec2d  .begin(),K##vec2d  .end(),K##circle2d);      \
+   algorithm::generate_axis_projection_descriptor<T>                         K##obj20(K##poly2d,K##vec2d.begin());                           \
+   algorithm::sutherland_hodgman_polygon_clipper< point2d<T> >               K##obj21(K##rect2d,K##poly2d,K##poly2d);                        \
+   algorithm::polygon_triangulate< point2d<T> >                              K##obj23(K##poly2d,K##t2dlist.begin());                         \
+
    typedef wykobi::point2d<float>*  flt_pnt_2d;
    typedef wykobi::point2d<double>* dbl_pnt_2d;
 
@@ -1375,21 +1410,21 @@ namespace wykobi
    typedef pointnd<double, 9> pointnd_dbl_9;
    typedef pointnd<double,10> pointnd_dbl_10;
 
-   INSTANTIATE_WYKOBI_ND(float, 4,  pointnd_flt_4)
-   INSTANTIATE_WYKOBI_ND(float, 5,  pointnd_flt_5)
-   INSTANTIATE_WYKOBI_ND(float, 6,  pointnd_flt_6)
-   INSTANTIATE_WYKOBI_ND(float, 7,  pointnd_flt_7)
-   INSTANTIATE_WYKOBI_ND(float, 8,  pointnd_flt_8)
-   INSTANTIATE_WYKOBI_ND(float, 9,  pointnd_flt_9)
-   INSTANTIATE_WYKOBI_ND(float,10, pointnd_flt_10)
+   INSTANTIATE_WYKOBI_ND(float,  4,  pointnd_flt_4)
+   INSTANTIATE_WYKOBI_ND(float,  5,  pointnd_flt_5)
+   INSTANTIATE_WYKOBI_ND(float,  6,  pointnd_flt_6)
+   INSTANTIATE_WYKOBI_ND(float,  7,  pointnd_flt_7)
+   INSTANTIATE_WYKOBI_ND(float,  8,  pointnd_flt_8)
+   INSTANTIATE_WYKOBI_ND(float,  9,  pointnd_flt_9)
+   INSTANTIATE_WYKOBI_ND(float, 10, pointnd_flt_10)
 
-   INSTANTIATE_WYKOBI_ND(double, 4,  pointnd_dbl_4)
-   INSTANTIATE_WYKOBI_ND(double, 5,  pointnd_dbl_5)
-   INSTANTIATE_WYKOBI_ND(double, 6,  pointnd_dbl_6)
-   INSTANTIATE_WYKOBI_ND(double, 7,  pointnd_dbl_7)
-   INSTANTIATE_WYKOBI_ND(double, 8,  pointnd_dbl_8)
-   INSTANTIATE_WYKOBI_ND(double, 9,  pointnd_dbl_9)
-   INSTANTIATE_WYKOBI_ND(double,10, pointnd_dbl_10)
+   INSTANTIATE_WYKOBI_ND(double,  4,  pointnd_dbl_4)
+   INSTANTIATE_WYKOBI_ND(double,  5,  pointnd_dbl_5)
+   INSTANTIATE_WYKOBI_ND(double,  6,  pointnd_dbl_6)
+   INSTANTIATE_WYKOBI_ND(double,  7,  pointnd_dbl_7)
+   INSTANTIATE_WYKOBI_ND(double,  8,  pointnd_dbl_8)
+   INSTANTIATE_WYKOBI_ND(double,  9,  pointnd_dbl_9)
+   INSTANTIATE_WYKOBI_ND(double, 10, pointnd_dbl_10)
    */
 
    INSTANTIATE_WYKOBI_MATH(float)
@@ -1403,6 +1438,9 @@ namespace wykobi
 
    INSTANTIATE_WYKOBI_UTILITIES_2(float,3)
    INSTANTIATE_WYKOBI_UTILITIES_2(double,3)
+
+   INSTANTIATE_WYKOBI_ALGORITHMS(float, f)
+   INSTANTIATE_WYKOBI_ALGORITHMS(double,d)
 
 } // wykobi namespace
 
