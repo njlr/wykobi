@@ -4,15 +4,15 @@
 (* Wykobi Computational Geometry Library                               *)
 (* Release Version 0.0.5                                               *)
 (* http://www.wykobi.com                                               *)
-(* Copyright (c) 2005-2016 Arash Partow, All Rights Reserved.          *)
+(* Copyright (c) 2005-2017 Arash Partow, All Rights Reserved.          *)
 (*                                                                     *)
 (* The Wykobi computational geometry library and its components are    *)
-(* supplied under the terms of the General Wykobi License agreement.   *)
+(* supplied under the terms of the open source MIT License.            *)
 (* The contents of the Wykobi computational geometry library and its   *)
 (* components may not be copied or disclosed except in accordance with *)
-(* the terms of that agreement.                                        *)
+(* the terms of the MIT License.                                       *)
 (*                                                                     *)
-(* URL: http://www.wykobi.com/license.html                             *)
+(* URL: https://opensource.org/licenses/MIT                            *)
 (*                                                                     *)
 (***********************************************************************)
 */
@@ -25,6 +25,7 @@
 #include <algorithm>
 #include <iterator>
 #include <vector>
+
 
 namespace wykobi
 {
@@ -51,7 +52,9 @@ namespace wykobi
             clipper_engine.register_edge(edge(clip_boundry,1)[1],edge(clip_boundry,1)[0]);
             clipper_engine.register_edge(edge(clip_boundry,2)[1],edge(clip_boundry,2)[0]);
             clipper_engine.register_edge(edge(clip_boundry,3)[1],edge(clip_boundry,3)[0]);
+
             clipped_polygon.clear();
+
             clipper_engine.clip(input_polygon.begin(),input_polygon.end(),std::back_inserter(clipped_polygon));
          }
 
@@ -67,6 +70,7 @@ namespace wykobi
             if (orientation(clip_boundry[0],clip_boundry[1],clip_boundry[2]) == LeftHandSide)
             {
                std::size_t j = 0;
+
                for (std::size_t i = clip_boundry.size() - 1; (0 <= i) && (i < clip_boundry.size()); i--)
                {
                   clipper_engine.register_edge(clip_boundry[j],clip_boundry[i]);
@@ -76,13 +80,16 @@ namespace wykobi
             else
             {
                std::size_t j = clip_boundry.size() - 1;
+
                for (std::size_t i = 0; i < clip_boundry.size(); ++i)
                {
                   clipper_engine.register_edge(clip_boundry[j],clip_boundry[i]);
                   j = i;
                }
             }
+
             clipped_polygon.clear();
+
             clipper_engine.clip(input_polygon.begin(),input_polygon.end(),std::back_inserter(clipped_polygon));
          }
       };
@@ -94,7 +101,7 @@ namespace wykobi
 
          void register_edge(const point2d<T>& point1, const point2d<T>& point2)
          {
-            edge_list.push_back(std::make_pair< point2d<T>,point2d<T> >(point1,point2));
+            edge_list.push_back(std::make_pair/*<const point2d<T>, const point2d<T> >*/(point1,point2));
          }
 
          template <typename InputIterator, typename OutputIterator>
@@ -116,19 +123,26 @@ namespace wykobi
 
                switch (i & 0x01)
                {
-                  case 0 : clip_against_edge(half_plane_edge(point1,point2),clip_poly1,clip_poly2); break;
-                  case 1 : clip_against_edge(half_plane_edge(point1,point2),clip_poly2,clip_poly1); break;
+                  case 0 : clip_against_edge(half_plane_edge(point1,point2),clip_poly1,clip_poly2);
+                           break;
+
+                  case 1 : clip_against_edge(half_plane_edge(point1,point2),clip_poly2,clip_poly1);
+                           break;
                }
             }
 
             switch (edge_list.size() & 0x01)
             {
-               case 0 : std::copy(clip_poly1.begin(),clip_poly1.end(),out); break;
-               case 1 : std::copy(clip_poly2.begin(),clip_poly2.end(),out); break;
+               case 0 : std::copy(clip_poly1.begin(),clip_poly1.end(),out);
+                        break;
+
+               case 1 : std::copy(clip_poly2.begin(),clip_poly2.end(),out);
+                        break;
             }
          }
 
       private:
+
          class half_plane_edge
          {
          public:
@@ -199,6 +213,7 @@ namespace wykobi
 
                previous_point = current_point;
             }
+
             input_poly.clear();
          }
 

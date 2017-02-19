@@ -4,15 +4,15 @@
 (* Wykobi Computational Geometry Library                               *)
 (* Release Version 0.0.5                                               *)
 (* http://www.wykobi.com                                               *)
-(* Copyright (c) 2005-2016 Arash Partow, All Rights Reserved.          *)
+(* Copyright (c) 2005-2017 Arash Partow, All Rights Reserved.          *)
 (*                                                                     *)
 (* The Wykobi computational geometry library and its components are    *)
-(* supplied under the terms of the General Wykobi License agreement.   *)
+(* supplied under the terms of the open source MIT License.            *)
 (* The contents of the Wykobi computational geometry library and its   *)
 (* components may not be copied or disclosed except in accordance with *)
-(* the terms of that agreement.                                        *)
+(* the terms of the MIT License.                                       *)
 (*                                                                     *)
-(* URL: http://www.wykobi.com/license.html                             *)
+(* URL: https://opensource.org/licenses/MIT                            *)
 (*                                                                     *)
 (***********************************************************************)
 */
@@ -20,6 +20,7 @@
 
 #ifndef INCLUDE_WYKOBI
 #define INCLUDE_WYKOBI
+
 
 #include <cstddef>
 #include <limits>
@@ -30,12 +31,13 @@
 
 #include "wykobi_math.hpp"
 
+
 namespace wykobi
 {
 
-   static const char VERSION_INFORMATION[] = "Wykobi Version 0.0.4";
+   static const char VERSION_INFORMATION[] = "Wykobi Version 0.0.5";
    static const char AUTHOR_INFORMATION[]  = "Arash Partow";
-   static const char EPOCH_VERSION[]       = "21744C5A:44A4153E:EB32F784";
+   static const char EPOCH_VERSION[]       = "C578AC5A:35A4123B:DF32F721";
 
    #ifndef WYKOBI
     #define WYKOBI
@@ -391,6 +393,7 @@ namespace wykobi
 
       typedef typename std::vector<PointType>::iterator iterator;
       typedef typename std::vector<PointType>::const_iterator const_iterator;
+      typedef PointType value_type;
 
    public:
 
@@ -774,49 +777,32 @@ namespace wykobi
 
    /************[ Trigonometry Tables ]************/
    template <typename T>
-   class trigonometry_tables
+   class trig_luts
    {
    public:
 
       const static unsigned int TableSize = 360;
 
-      trigonometry_tables()
+      trig_luts()
       {
-         _sin_table = new T[TableSize];
-         _cos_table = new T[TableSize];
-         _tan_table = new T[TableSize];
-
-         for (unsigned int i = 0; i < 360; ++i)
+         for (std::size_t i = 0; i < 360; ++i)
          {
-            _sin_table[i] = sin((1.0 * i) * PIDiv180);
-            _cos_table[i] = cos((1.0 * i) * PIDiv180);
-            _tan_table[i] = tan((1.0 * i) * PIDiv180);
+            sin_[i] = T(std::sin((1.0 * i) * PIDiv180));
+            cos_[i] = T(std::cos((1.0 * i) * PIDiv180));
+            tan_[i] = T(std::tan((1.0 * i) * PIDiv180));
          }
       }
 
-     ~trigonometry_tables()
-      {
-         delete[] _sin_table;
-         delete[] _cos_table;
-         delete[] _tan_table;
-      }
-
-      inline const T& sin(const unsigned int angle) const { return _sin_table[angle]; }
-      inline const T& cos(const unsigned int angle) const { return _cos_table[angle]; }
-      inline const T& tan(const unsigned int angle) const { return _tan_table[angle]; }
+      inline const T& sin(const unsigned int angle) const { return sin_[angle]; }
+      inline const T& cos(const unsigned int angle) const { return cos_[angle]; }
+      inline const T& tan(const unsigned int angle) const { return tan_[angle]; }
 
    private:
 
-      T* _sin_table;
-      T* _cos_table;
-      T* _tan_table;
+      std::vector<T> sin_;
+      std::vector<T> cos_;
+      std::vector<T> tan_;
    };
-
-   const unsigned int TrigTableSize = 360;
-
-   static Float* sin_table = 0;
-   static Float* cos_table = 0;
-   static Float* tan_table = 0;
 
    /************[ General Definitions ]************/
    typedef segment <Float,2> segment2d;
@@ -2373,6 +2359,26 @@ namespace wykobi
    inline void circle_tangent_points(const circle<T>& circle, const point2d<T>& point, point2d<T>& point1, point2d<T>& point2);
 
    template <typename T>
+   inline void circle_internal_tangent_lines(const circle<T>& circle0,
+                                             const circle<T>& circle1,
+                                             std::vector< line<T,2> >& lines);
+
+   template <typename T>
+   inline void circle_internal_tangent_segments(const circle<T>& circle0,
+                                                const circle<T>& circle1,
+                                                std::vector< segment<T,2> >& segments);
+
+   template <typename T>
+   inline void circle_outer_tangent_lines(const circle<T>& circle0,
+                                          const circle<T>& circle1,
+                                          std::vector< line<T,2> >& lines);
+
+   template <typename T>
+   inline void circle_outer_tangent_segments(const circle<T>& circle0,
+                                             const circle<T>& circle1,
+                                             std::vector< segment<T,2> >& segments);
+
+   template <typename T>
    inline line<T,2> tangent_line(const circle<T>& circle, const point2d<T>& point);
 
    template <typename T>
@@ -3326,71 +3332,52 @@ namespace wykobi
    template <typename T> inline polygon<T,2> rotate(const T& rotation_angle, const polygon<T,2>& polygon);
    template <typename T> inline polygon<T,2> rotate(const T& rotation_angle, const polygon<T,2>& polygon, const point2d<T>& opoint);
 
-   template <typename T> inline void rotate(const T& rx, const T& ry, const T& rz,
-                                           const T&  x, const T&  y, const T&  z,
-                                                 T& nx,       T& ny,       T& nz);
+   template <typename T> inline void fast_rotate(const trig_luts<T>& lut,
+                                                 const int rotation_angle,
+                                                 const T& x, const T& y, T& nx, T& ny);
 
-   template <typename T> inline void rotate(const T& rx, const T& ry, const T& rz,
-                                           const T&  x, const T&  y, const T&  z,
-                                           const T& ox, const T& oy, const T& oz,
-                                                 T& nx,       T& ny,       T& nz);
+   template <typename T> inline void fast_rotate(const trig_luts<T>& lut,
+                                                 const int rotation_angle,
+                                                 const T& x, const T& y, const T& ox, const T& oy, T& nx, T& ny);
 
-   template <typename T> inline point3d<T> rotate(const T& rx, const T& ry, const T& rz, const point3d<T>& point);
-   template <typename T> inline point3d<T> rotate(const T& rx, const T& ry, const T& rz, const point3d<T>& point, const point3d<T>& opoint);
+   template <typename T> inline point2d<T> fast_rotate(const trig_luts<T>& lut, const int rotation_angle, const point2d<T>& point);
+   template <typename T> inline point2d<T> fast_rotate(const trig_luts<T>& lut, const int rotation_angle, const point2d<T>& point, const point2d<T>& opoint);
 
-   template <typename T> inline segment<T,3> rotate(const T& rx, const T& ry, const T& rz, const segment<T,3>& segment);
-   template <typename T> inline segment<T,3> rotate(const T& rx, const T& ry, const T& rz, const segment<T,3>& segment, const point3d<T>& opoint);
+   template <typename T> inline segment<T,2> fast_rotate(const trig_luts<T>& lut, const int rotation_angle, const segment<T,2>& segment);
+   template <typename T> inline segment<T,2> fast_rotate(const trig_luts<T>& lut, const int rotation_angle, const segment<T,2>& segment, const point2d<T>& opoint);
 
-   template <typename T> inline triangle<T,3> rotate(const T& rx, const T& ry, const T& rz, const triangle<T,3>& triangle);
-   template <typename T> inline triangle<T,3> rotate(const T& rx, const T& ry, const T& rz, const triangle<T,3>& triangle, const point3d<T>& opoint);
+   template <typename T> inline triangle<T,2> fast_rotate(const trig_luts<T>& lut, const int rotation_angle, const triangle<T,2>& triangle);
+   template <typename T> inline triangle<T,2> fast_rotate(const trig_luts<T>& lut, const int rotation_angle, const triangle<T,2>& triangle, const point2d<T>& opoint);
 
-   template <typename T> inline quadix<T,3> rotate(const T& rx, const T& ry, const T& rz, const quadix<T,3>& quadix);
-   template <typename T> inline quadix<T,3> rotate(const T& rx, const T& ry, const T& rz, const quadix<T,3>& quadix, const point3d<T>& opoint);
+   template <typename T> inline quadix<T,2> fast_rotate(const trig_luts<T>& lut, const int rotation_angle, const quadix<T,2>& quadix);
+   template <typename T> inline quadix<T,2> fast_rotate(const trig_luts<T>& lut, const int rotation_angle, const quadix<T,2>& quadix, const point2d<T>& opoint);
 
-   template <typename T> inline polygon<T,3> rotate(const T& rx, const T& ry, const T& rz, const polygon<T,3>& polygon);
-   template <typename T> inline polygon<T,3> rotate(const T& rx, const T& ry, const T& rz, const polygon<T,3>& polygon, const point3d<T>& opoint);
+   template <typename T> inline polygon<T,2> fast_rotate(const trig_luts<T>& lut, const int rotation_angle, const polygon<T,2>& polygon);
+   template <typename T> inline polygon<T,2> fast_rotate(const trig_luts<T>& lut, const int rotation_angle, const polygon<T,2>& polygon, const point2d<T>& opoint);
 
-   template <typename T> inline void fast_rotate(const int rotation_angle, const T& x, const T& y, T& nx, T& ny);
-   template <typename T> inline void fast_rotate(const int rotation_angle, const T& x, const T& y, const T& ox, const T& oy, T& nx, T& ny);
+   template <typename T> inline void fast_rotate(const trig_luts<T>& lut,
+                                                 const int rx, const int ry, const int rz,
+                                                 const T& x, const T& y, const T& z, T& nx, T& ny, T& nz);
 
-   template <typename T> inline point2d<T> fast_rotate(const int rotation_angle, const point2d<T>& point);
-   template <typename T> inline point2d<T> fast_rotate(const int rotation_angle, const point2d<T>& point, const point2d<T>& opoint);
+   template <typename T> inline void fast_rotate(const trig_luts<T>& lut,
+                                                 const int rx, const int ry, const int rz,
+                                                 const T& x, const T& y, const T& z, const T& ox, const T& oy, const T& oz, T& nx, T& ny, T& nz);
 
-   template <typename T> inline segment<T,2> fast_rotate(const int rotation_angle, const segment<T,2>& segment);
-   template <typename T> inline segment<T,2> fast_rotate(const int rotation_angle, const segment<T,2>& segment, const point2d<T>& opoint);
+   template <typename T> inline point3d<T> fast_rotate(const trig_luts<T>& lut, const int rx, const int ry, const int rz, const point3d<T>& point);
+   template <typename T> inline point3d<T> fast_rotate(const trig_luts<T>& lut, const int rx, const int ry, const int rz, const point3d<T>& point, const point3d<T>& opoint);
 
-   template <typename T> inline triangle<T,2> fast_rotate(const int rotation_angle, const triangle<T,2>& triangle);
-   template <typename T> inline triangle<T,2> fast_rotate(const int rotation_angle, const triangle<T,2>& triangle, const point2d<T>& opoint);
+   template <typename T> inline segment<T,3> fast_rotate(const trig_luts<T>& lut, const int rx, const int ry, const int rz, const segment<T,3>& segment);
+   template <typename T> inline segment<T,3> fast_rotate(const trig_luts<T>& lut, const int rx, const int ry, const int rz, const segment<T,3>& segment, const point3d<T>& opoint);
 
-   template <typename T> inline quadix<T,2> fast_rotate(const int rotation_angle, const quadix<T,2>& quadix);
-   template <typename T> inline quadix<T,2> fast_rotate(const int rotation_angle, const quadix<T,2>& quadix, const point2d<T>& opoint);
+   template <typename T> inline triangle<T,3> fast_rotate(const trig_luts<T>& lut, const int rx, const int ry, const int rz, const triangle<T,3>& triangle);
+   template <typename T> inline triangle<T,3> fast_rotate(const trig_luts<T>& lut, const int rx, const int ry, const int rz, const triangle<T,3>& triangle, const point3d<T>& opoint);
 
-   template <typename T> inline polygon<T,2> fast_rotate(const int rotation_angle, const polygon<T,2>& polygon);
-   template <typename T> inline polygon<T,2> fast_rotate(const int rotation_angle, const polygon<T,2>& polygon, const point2d<T>& opoint);
+   template <typename T> inline quadix<T,3> fast_rotate(const trig_luts<T>& lut, const int rx, const int ry, const int rz, const quadix<T,3>& quadix);
+   template <typename T> inline quadix<T,3> fast_rotate(const trig_luts<T>& lut, const int rx, const int ry, const int rz, const quadix<T,3>& quadix, const point3d<T>& opoint);
 
-   template <typename T> inline void fast_rotate(const int rx, const int ry, const int rz,
-                                                const T&   x, const T&   y, const T&   z,
-                                                      T&  nx,       T&  ny,        T& nz);
+   template <typename T> inline polygon<T,3> fast_rotate(const trig_luts<T>& lut, const int rx, const int ry, const int rz, const polygon<T,3>& polygon);
+   template <typename T> inline polygon<T,3> fast_rotate(const trig_luts<T>& lut, const int rx, const int ry, const int rz, const polygon<T,3>& polygon, const point3d<T>& opoint);
 
-   template <typename T> inline void fast_rotate(const int rx, const int ry, const int rz,
-                                                const T&   x, const T&   y, const T&   z,
-                                                const T&  ox, const T&  oy, const T&  oz,
-                                                      T&  nx,       T&  ny,       T&  nz);
-
-   template <typename T> inline point3d<T> fast_rotate(const int rx, const int ry, const int rz, const point3d<T>& point);
-   template <typename T> inline point3d<T> fast_rotate(const int rx, const int ry, const int rz, const point3d<T>& point, const point3d<T>& opoint);
-
-   template <typename T> inline segment<T,3> fast_rotate(const int rx, const int ry, const int rz, const segment<T,3>& segment);
-   template <typename T> inline segment<T,3> fast_rotate(const int rx, const int ry, const int rz, const segment<T,3>& segment, const point3d<T>& opoint);
-
-   template <typename T> inline triangle<T,3> fast_rotate(const int rx, const int ry, const int rz, const triangle<T,3>& triangle);
-   template <typename T> inline triangle<T,3> fast_rotate(const int rx, const int ry, const int rz, const triangle<T,3>& triangle, const point3d<T>& opoint);
-
-   template <typename T> inline quadix<T,3> fast_rotate(const int rx, const int ry, const int rz, const quadix<T,3>& quadix);
-   template <typename T> inline quadix<T,3> fast_rotate(const int rx, const int ry, const int rz, const quadix<T,3>& quadix, const point3d<T>& opoint);
-
-   template <typename T> inline polygon<T,3> fast_rotate(const int rx, const int ry, const int rz, const polygon<T,3>& polygon);
-   template <typename T> inline polygon<T,3> fast_rotate(const int rx, const int ry, const int rz, const polygon<T,3>& polygon, const point3d<T>& opoint);
 
    template <typename T> inline point2d<T> translate(const T& dx, const T& dy, const point2d<T>& point);
    template <typename T> inline line<T,2> translate(const T& dx, const T& dy, const line<T,2>& line);
