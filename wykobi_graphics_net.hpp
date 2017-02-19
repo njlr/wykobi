@@ -59,7 +59,7 @@ namespace wykobi
 
       inline void set_pen(Pen^ _pen) const
       {
-         pen = pen;
+         pen_ = _pen;
       }
 
       inline float get_pen_width() const
@@ -74,13 +74,13 @@ namespace wykobi
 
       inline void set_dash_mode() const
       {
-         array<Single>^temp0 = {5.0F,5.0F,5.0F,5.0F};
+         array<Single>^ temp0 = {5.0F, 5.0F, 5.0F, 5.0F};
          pen_->DashPattern = temp0;
       }
 
       inline void set_nodash_mode() const
       {
-         array<Single>^temp0 = {1.0F,1.0F,1.0F,1.0F};
+         array<Single>^ temp0 = {1.0F, 0.0001F};
          pen_->DashPattern = temp0;
       }
 
