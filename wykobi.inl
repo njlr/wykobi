@@ -642,18 +642,18 @@ namespace wykobi
    template <typename T>
    inline bool coplanar(const triangle<T,3>& triangle1, const triangle<T,3>& triangle2)
    {
-      return robust_coplanar(triangle1[0],triangle1[1],triangle1[2],triangle2[0]) &&
-             robust_coplanar(triangle1[0],triangle1[1],triangle1[2],triangle2[1]) &&
-             robust_coplanar(triangle1[0],triangle1[1],triangle1[2],triangle2[2]) ;
+      return robust_coplanar(triangle1[0], triangle1[1], triangle1[2], triangle2[0]) &&
+             robust_coplanar(triangle1[0], triangle1[1], triangle1[2], triangle2[1]) &&
+             robust_coplanar(triangle1[0], triangle1[1], triangle1[2], triangle2[2]) ;
    }
 
    template <typename T>
    inline bool coplanar(const quadix<T,3>& quadix1, const quadix<T,3>& quadix2)
    {
-      return robust_coplanar(quadix1[0],quadix1[1],quadix1[2],quadix2[0]) &&
-             robust_coplanar(quadix1[0],quadix1[1],quadix1[2],quadix2[1]) &&
-             robust_coplanar(quadix1[0],quadix1[1],quadix1[2],quadix2[2]) &&
-             robust_coplanar(quadix1[0],quadix1[1],quadix1[2],quadix2[3]) ;
+      return robust_coplanar(quadix1[0], quadix1[1], quadix1[2], quadix2[0]) &&
+             robust_coplanar(quadix1[0], quadix1[1], quadix1[2], quadix2[1]) &&
+             robust_coplanar(quadix1[0], quadix1[1], quadix1[2], quadix2[2]) &&
+             robust_coplanar(quadix1[0], quadix1[1], quadix1[2], quadix2[3]) ;
    }
 
    template <typename T>
@@ -675,10 +675,10 @@ namespace wykobi
                           const point2d<T>& point4,
                           const T& epsilon)
    {
-      return cocircular(point1.x,point1.y,
-                        point2.x,point2.y,
-                        point3.x,point3.y,
-                        point4.x,point4.y,epsilon);
+      return cocircular(point1.x, point1.y,
+                        point2.x, point2.y,
+                        point3.x, point3.y,
+                        point4.x, point4.y,epsilon);
    }
 
    template <typename T>
@@ -735,8 +735,8 @@ namespace wykobi
                          const T& x3, const T& y3,
                          const T& x4, const T& y4)
    {
-      T ax = x2 - x1;
-      T bx = x3 - x4;
+      const T ax = x2 - x1;
+      const T bx = x3 - x4;
 
       T lowerx;
       T upperx;
@@ -762,8 +762,8 @@ namespace wykobi
       else if ((upperx < x3) || (x4 < lowerx))
          return false;
 
-      T ay = y2 - y1;
-      T by = y3 - y4;
+      const T ay = y2 - y1;
+      const T by = y3 - y4;
 
       if (ay < T(0.0))
       {
@@ -784,10 +784,10 @@ namespace wykobi
       else if ((uppery < y3) || (y4 < lowery))
          return false;
 
-      T cx = x1 - x3;
-      T cy = y1 - y3;
-      T  d = (by * cx) - (bx * cy);
-      T  f = (ay * bx) - (ax * by);
+      const T cx = x1 - x3;
+      const T cy = y1 - y3;
+      const T  d = (by * cx) - (bx * cy);
+      const T  f = (ay * bx) - (ax * by);
 
       if (f > T(0.0))
       {
@@ -797,7 +797,7 @@ namespace wykobi
       else if ((d > T(0.0)) || (d < f))
          return false;
 
-      T e = (ax * cy) - (ay * cx);
+      const T e = (ax * cy) - (ay * cx);
 
       if (f > T(0.0))
       {
@@ -817,8 +817,8 @@ namespace wykobi
                          const T& x4, const T& y4,
                                T& ix,       T& iy)
    {
-      T ax = x2 - x1;
-      T bx = x3 - x4;
+      const T ax = x2 - x1;
+      const T bx = x3 - x4;
 
       T lowerx;
       T upperx;
@@ -844,8 +844,8 @@ namespace wykobi
       else if ((upperx < x3) || (x4 < lowerx))
          return false;
 
-      T ay = y2 - y1;
-      T by = y3 - y4;
+      const T ay = y2 - y1;
+      const T by = y3 - y4;
 
       if (ay < T(0.0))
       {
@@ -866,10 +866,10 @@ namespace wykobi
       else if ((uppery < y3) || (y4 < lowery))
          return false;
 
-      T cx = x1 - x3;
-      T cy = y1 - y3;
-      T d  = (by * cx) - (bx * cy);
-      T f  = (ay * bx) - (ax * by);
+      const T cx = x1 - x3;
+      const T cy = y1 - y3;
+      const T d  = (by * cx) - (bx * cy);
+      const T f  = (ay * bx) - (ax * by);
 
       if (f > T(0.0))
       {
@@ -879,7 +879,7 @@ namespace wykobi
       else if ((d > T(0.0)) || (d < f))
          return false;
 
-      T e = (ax * cy) - (ay * cx);
+      const T e = (ax * cy) - (ay * cx);
 
       if (f > T(0.0))
       {
@@ -1074,21 +1074,21 @@ namespace wykobi
    template <typename T>
    inline bool intersect(const segment<T,3>& segment, const box<T,3>& box)
    {
-      T cx = (box[0].x + box[1].x) * T(0.5);
-      T cy = (box[0].y + box[1].y) * T(0.5);
-      T cz = (box[0].z + box[1].z) * T(0.5);
+      const T cx = (box[0].x + box[1].x) * T(0.5);
+      const T cy = (box[0].y + box[1].y) * T(0.5);
+      const T cz = (box[0].z + box[1].z) * T(0.5);
 
-      T ex = box[1].x - cx;
-      T ey = box[1].y - cy;
-      T ez = box[1].z - cz;
+      const T ex = box[1].x - cx;
+      const T ey = box[1].y - cy;
+      const T ez = box[1].z - cz;
 
-      T mx = (segment[0].x + segment[1].x) * T(0.5) - cx;
-      T my = (segment[0].y + segment[1].y) * T(0.5) - cy;
-      T mz = (segment[0].z + segment[1].z) * T(0.5) - cz;
+      const T mx = (segment[0].x + segment[1].x) * T(0.5) - cx;
+      const T my = (segment[0].y + segment[1].y) * T(0.5) - cy;
+      const T mz = (segment[0].z + segment[1].z) * T(0.5) - cz;
 
-      T dx = segment[1].x - mx;
-      T dy = segment[1].y - my;
-      T dz = segment[1].z - mz;
+      const T dx = segment[1].x - mx;
+      const T dy = segment[1].y - my;
+      const T dz = segment[1].z - mz;
 
       T adx = abs(dx);
       if (abs(mx) > ex + adx) return false;
@@ -1115,7 +1115,9 @@ namespace wykobi
    {
       T px;
       T py;
+
       closest_point_on_segment_from_point(segment[0].x,segment[0].y,segment[1].x,segment[1].y,circle.x,circle.y,px,py);
+
       return (lay_distance(px,py,circle.x,circle.y) <= (circle.radius * circle.radius));
    }
 
@@ -1134,9 +1136,10 @@ namespace wykobi
    template <typename T>
    inline bool intersect(const segment<T,3>& segment, const sphere<T>& sphere)
    {
-      T a = lay_distance(segment);
-      T b = 2 * ((segment[1].x - segment[0].x) * (segment[0].x - sphere.x) + (segment[1].y - segment[0].y) * (segment[0].y - sphere.y) + (segment[1].z - segment[0].z) * (segment[0].z  - sphere.z));
-      T c = sqr(sphere.x) + sqr(sphere.y) + sqr(sphere.z) + sqr(segment[1].x) + sqr(segment[1].y) + sqr(segment[1].z) - 2 * (sphere.x * segment[1].x + sphere.y * segment[1].y + sphere.z * segment[1].z) - sqr(sphere.radius);
+      const T a = lay_distance(segment);
+      const T b = 2 * ((segment[1].x - segment[0].x) * (segment[0].x - sphere.x) + (segment[1].y - segment[0].y) * (segment[0].y - sphere.y) + (segment[1].z - segment[0].z) * (segment[0].z  - sphere.z));
+      const T c = sqr(sphere.x) + sqr(sphere.y) + sqr(sphere.z) + sqr(segment[1].x) + sqr(segment[1].y) + sqr(segment[1].z) - 2 * (sphere.x * segment[1].x + sphere.y * segment[1].y + sphere.z * segment[1].z) - sqr(sphere.radius);
+
       //((b * b - 4 * a * c) >= 0)
       return greater_than_or_equal((b * b - 4 * a * c),T(0.0));
    }
@@ -1146,8 +1149,10 @@ namespace wykobi
    {
       T signed_dist1 = dot_product(plane.normal,make_vector(segment[0])) - plane.constant;
       T signed_dist2 = dot_product(plane.normal,make_vector(segment[1])) - plane.constant;
+
       signed_dist1 = (is_equal(abs(signed_dist1),T(0.0)))? T(0.0) : signed_dist1;
       signed_dist2 = (is_equal(abs(signed_dist2),T(0.0)))? T(0.0) : signed_dist2;
+
       return less_than_or_equal(signed_dist1 * signed_dist2,T(0.0));
    }
 
@@ -1166,7 +1171,7 @@ namespace wykobi
    template <typename T>
    inline bool intersect(const line<T,2>& line, const triangle<T,2>& triangle)
    {
-      int or1 = orientation (line[0], line[1], triangle[0]);
+      const int or1 = orientation (line[0], line[1], triangle[0]);
 
       if (0 == or1) return true;
       int or2 = orientation (line[0], line[1], triangle[1]);
@@ -1180,7 +1185,7 @@ namespace wykobi
    template <typename T>
    inline bool intersect(const line<T,2>& line, const quadix<T,2>& quadix)
    {
-      int or1 = orientation (line[0], line[1], quadix[0]);
+      const int or1 = orientation (line[0], line[1], quadix[0]);
 
       if (0 == or1) return true;
       int or2 = orientation (line[0], line[1], quadix[1]);
@@ -1209,10 +1214,11 @@ namespace wykobi
          (1 point), or tangential.
          anything else will result in a false output.
       */
-      T x1 = line[0].x - circle.x;
-      T y1 = line[0].y - circle.y;
-      T x2 = line[1].x - circle.x;
-      T y2 = line[1].y - circle.y;
+      const T x1 = line[0].x - circle.x;
+      const T y1 = line[0].y - circle.y;
+      const T x2 = line[1].x - circle.x;
+      const T y2 = line[1].y - circle.y;
+
       return greater_than_or_equal(((circle.radius * circle.radius) * lay_distance(x1,y1,x2,y2) - sqr(x1 * y2 - x2 * y1)),T(0.0));
    }
 
@@ -1266,6 +1272,7 @@ namespace wykobi
             }
          }
       }
+
       return false;
    }
 
@@ -1277,15 +1284,15 @@ namespace wykobi
    template <typename T>
    inline bool intersect(const line<T,3>& line, const sphere<T>& sphere)
    {
-      T a =  sqr(line[1].x - line[0].x) + sqr(line[1].y - line[0].y) + sqr(line[1].z - line[0].z);
+      const T a =  sqr(line[1].x - line[0].x) + sqr(line[1].y - line[0].y) + sqr(line[1].z - line[0].z);
 
-      T b =  T(2.0) * ((line[1].x - line[0].x) * (line[0].x - sphere.x) +
-                       (line[1].y - line[0].y) * (line[0].y - sphere.y) +
-                       (line[1].z - line[0].z) * (line[0].z - sphere.z));
+      const T b =  T(2.0) * ((line[1].x - line[0].x) * (line[0].x - sphere.x) +
+                             (line[1].y - line[0].y) * (line[0].y - sphere.y) +
+                             (line[1].z - line[0].z) * (line[0].z - sphere.z));
 
-      T c =  sqr(sphere.x)  + sqr(sphere.y)  + sqr(sphere.z) +
-             sqr(line[0].x) + sqr(line[0].y) + sqr(line[0].z) -
-             T(2.0) * (sphere.x * line[0].x + sphere.y * line[0].y + sphere.z * line[0].z) - sqr(sphere.radius);
+      const T c =  sqr(sphere.x)  + sqr(sphere.y)  + sqr(sphere.z) +
+                   sqr(line[0].x) + sqr(line[0].y) + sqr(line[0].z) -
+                   T(2.0) * (sphere.x * line[0].x + sphere.y * line[0].y + sphere.z * line[0].z) - sqr(sphere.radius);
 
       return greater_than_or_equal(b * b - 4 * a * c,T(0.0));
    }
@@ -1428,14 +1435,14 @@ namespace wykobi
    template <typename T>
    inline bool intersect(const ray<T,2>& ray1, const ray<T,2>& ray2)
    {
-      T denom = dot_product(perpendicular(ray1.direction),ray2.direction);
+      const T denom = dot_product(perpendicular(ray1.direction),ray2.direction);
 
       if (denom != T(0.0))
       {
          vector2d<T> diff = ray1.origin - ray2.origin;
 
-         T s = dot_product(perpendicular(ray1.direction),diff) / denom;
-         T t = dot_product(perpendicular(ray2.direction),diff) / denom;
+         const T s = dot_product(perpendicular(ray1.direction),diff) / denom;
+         const T t = dot_product(perpendicular(ray2.direction),diff) / denom;
 
          return (greater_than_or_equal(t,T(0.0)) &&  greater_than_or_equal(s,T(0.0)));
       }
@@ -1448,14 +1455,14 @@ namespace wykobi
    {
       if (!coplanar(ray1,ray2)) return false;
 
-      T denom = dot_product(perpendicular(ray1.direction),ray2.direction);
+      const T denom = dot_product(perpendicular(ray1.direction),ray2.direction);
 
       if (denom != T(0.0))
       {
          vector3d<T> diff = ray1.origin - ray2.origin;
 
-         T s = dot_product(perpendicular(ray1.direction),diff) / denom;
-         T t = dot_product(perpendicular(ray2.direction),diff) / denom;
+         const T s = dot_product(perpendicular(ray1.direction),diff) / denom;
+         const T t = dot_product(perpendicular(ray2.direction),diff) / denom;
 
          return (greater_than_or_equal(t,T(0.0)) &&  greater_than_or_equal(s,T(0.0)));
       }
@@ -1468,14 +1475,14 @@ namespace wykobi
    {
       vector2d<T> delta = perpendicular(segment[1] - segment[0]);
 
-      T denom = dot_product(delta,ray.direction);
+      const T denom = dot_product(delta,ray.direction);
 
       if (denom != T(0.0))
       {
          vector2d<T> diff = ray.origin - segment[0];
 
-         T s = dot_product(delta,diff) / denom;
-         T t = dot_product(perpendicular(ray.direction),diff) / denom;
+         const T s = dot_product(delta,diff) / denom;
+         const T t = dot_product(perpendicular(ray.direction),diff) / denom;
 
          return ((greater_than_or_equal(t,T(0.0)) && less_than_or_equal(t,T(1.0))) && greater_than_or_equal(s,T(0.0)));
       }
@@ -1501,7 +1508,7 @@ namespace wykobi
 
       if (not_equal(ray.direction.x,T(0.0)))
       {
-         T recip_dirx = T(1.0) / ray.direction.x;
+         const T recip_dirx = T(1.0) / ray.direction.x;
 
          if (ray.direction.x > T(0.0))
          {
@@ -1519,7 +1526,7 @@ namespace wykobi
 
       if (not_equal(ray.direction.y,T(0.0)))
       {
-         T recip_diry = T(1.0) / ray.direction.y;
+         const T recip_diry = T(1.0) / ray.direction.y;
 
          if (ray.direction.y > T(0.0))
          {
@@ -1547,7 +1554,8 @@ namespace wykobi
 
       if (not_equal(ray.direction.x,T(0.0)))
       {
-         T recip_dirx = T(1.0) / ray.direction.x;
+         const T recip_dirx = T(1.0) / ray.direction.x;
+
          if (ray.direction.x > T(0.0))
          {
             if ((t = (box[1].x - ray.origin.x) * recip_dirx) < tmin) { return false; } tmax = min(t,tmax);
@@ -1564,7 +1572,7 @@ namespace wykobi
 
       if (not_equal(ray.direction.y,T(0.0)))
       {
-         T recip_diry = T(1.0) / ray.direction.y;
+         const T recip_diry = T(1.0) / ray.direction.y;
 
          if (ray.direction.y > T(0.0))
          {
@@ -1582,7 +1590,7 @@ namespace wykobi
 
       if (not_equal(ray.direction.z,T(0.0)))
       {
-         T recip_dirz = T(1.0) / ray.direction.z;
+         const T recip_dirz = T(1.0) / ray.direction.z;
 
          if (ray.direction.z > T(0.0))
          {
@@ -1609,42 +1617,42 @@ namespace wykobi
       else
          return intersect(ray,edge(triangle,0)) ||
                 intersect(ray,edge(triangle,1)) ||
-                intersect(ray,edge(triangle,2));
+                intersect(ray,edge(triangle,2)) ;
    }
 
    template <typename T>
    inline bool intersect(const ray<T,3>& ray, const triangle<T,3>& triangle)
    {
-      T edge1_x = triangle[1].x - triangle[0].x;
-      T edge1_y = triangle[1].y - triangle[0].y;
-      T edge1_z = triangle[1].z - triangle[0].z;
-      T edge2_x = triangle[2].x - triangle[0].x;
-      T edge2_y = triangle[2].y - triangle[0].y;
-      T edge2_z = triangle[2].z - triangle[0].z;
+      const T edge1_x = triangle[1].x - triangle[0].x;
+      const T edge1_y = triangle[1].y - triangle[0].y;
+      const T edge1_z = triangle[1].z - triangle[0].z;
+      const T edge2_x = triangle[2].x - triangle[0].x;
+      const T edge2_y = triangle[2].y - triangle[0].y;
+      const T edge2_z = triangle[2].z - triangle[0].z;
 
-      T pvec_x = ray.direction.y * edge2_z - ray.direction.z * edge2_y;
-      T pvec_y = ray.direction.z * edge2_x - ray.direction.x * edge2_z;
-      T pvec_z = ray.direction.x * edge2_y - ray.direction.y * edge2_x;
+      const T pvec_x = ray.direction.y * edge2_z - ray.direction.z * edge2_y;
+      const T pvec_y = ray.direction.z * edge2_x - ray.direction.x * edge2_z;
+      const T pvec_z = ray.direction.x * edge2_y - ray.direction.y * edge2_x;
 
-      T det = edge1_x * pvec_x + edge1_y * pvec_y + edge1_z * pvec_z;
+      const T det = edge1_x * pvec_x + edge1_y * pvec_y + edge1_z * pvec_z;
 
       if (is_equal(det,T(0.0))) return false;
 
-      T inv_det = T(1.0) / det;
+      const T inv_det = T(1.0) / det;
 
-      T tvec_x = ray.origin.x - triangle[0].x;
-      T tvec_y = ray.origin.y - triangle[0].y;
-      T tvec_z = ray.origin.z - triangle[0].z;
+      const T tvec_x = ray.origin.x - triangle[0].x;
+      const T tvec_y = ray.origin.y - triangle[0].y;
+      const T tvec_z = ray.origin.z - triangle[0].z;
 
-      T u = (tvec_x * pvec_x + tvec_y * pvec_y + tvec_z * pvec_z) * inv_det;
+      const T u = (tvec_x * pvec_x + tvec_y * pvec_y + tvec_z * pvec_z) * inv_det;
 
       if (u < 0.0 || u > 1.0) return false;
 
-      T qvec_x = tvec_y * edge1_z - tvec_z * edge1_y;
-      T qvec_y = tvec_z * edge1_x - tvec_x * edge1_z;
-      T qvec_z = tvec_x * edge1_y - tvec_y * edge1_x;
+      const T qvec_x = tvec_y * edge1_z - tvec_z * edge1_y;
+      const T qvec_y = tvec_z * edge1_x - tvec_x * edge1_z;
+      const T qvec_z = tvec_x * edge1_y - tvec_y * edge1_x;
 
-      T v = (ray.direction.x * qvec_x + ray.direction.y * qvec_y + ray.direction.z * qvec_z) * inv_det;
+      const T v = (ray.direction.x * qvec_x + ray.direction.y * qvec_y + ray.direction.z * qvec_z) * inv_det;
 
       if ((v < 0.0) || ((u + v) > 1.0)) return false;
 
@@ -1666,16 +1674,16 @@ namespace wykobi
    template <typename T>
    inline bool intersect(const ray<T,2>& ray, const circle<T>& circle)
    {
-      T dx = ray.origin.x - circle.x;
-      T dy = ray.origin.y - circle.y;
-      T c  = (dx * dx) + (dy * dy) - (circle.radius * circle.radius);
+      const T dx = ray.origin.x - circle.x;
+      const T dy = ray.origin.y - circle.y;
+      const T c  = (dx * dx) + (dy * dy) - (circle.radius * circle.radius);
 
       if (less_than_or_equal(c,T(0.0)))
       {
          return true;
       }
 
-      T b = dx * ray.direction.x + dy * ray.direction.y;
+      const T b = dx * ray.direction.x + dy * ray.direction.y;
 
       if (greater_than_or_equal(b,T(0.0)))
       {
@@ -1688,17 +1696,17 @@ namespace wykobi
    template <typename T>
    inline bool intersect(const ray<T,3>& ray, const sphere<T>& sphere)
    {
-      T dx = ray.origin.x - sphere.x;
-      T dy = ray.origin.y - sphere.y;
-      T dz = ray.origin.z - sphere.z;
-      T c  = (dx * dx) + (dy * dy) + (dz * dz) - (sphere.radius * sphere.radius);
+      const T dx = ray.origin.x - sphere.x;
+      const T dy = ray.origin.y - sphere.y;
+      const T dz = ray.origin.z - sphere.z;
+      const T c  = (dx * dx) + (dy * dy) + (dz * dz) - (sphere.radius * sphere.radius);
 
       if (less_than_or_equal(c,T(0.0)))
       {
          return true;
       }
 
-      T b = dx * ray.direction.x + dy * ray.direction.y + dz * ray.direction.z;
+      const T b = dx * ray.direction.x + dy * ray.direction.y + dz * ray.direction.z;
 
       if (greater_than_or_equal(b,T(0.0)))
       {
@@ -1711,7 +1719,7 @@ namespace wykobi
    template <typename T>
    inline bool intersect(const ray<T,3>& ray, const plane<T,3>& plane)
    {
-      T denom = dot_product(ray.direction,plane.normal);
+      const T denom = dot_product(ray.direction,plane.normal);
 
       if (not_equal(denom,T(0.0)))
       {
@@ -1794,13 +1802,13 @@ namespace wykobi
                                   const T& x4, const T& y4,
                                         T& ix,       T& iy)
    {
-      T dx1 = x2 - x1;
-      T dx2 = x4 - x3;
-      T dx3 = x1 - x3;
+      const T dx1 = x2 - x1;
+      const T dx2 = x4 - x3;
+      const T dx3 = x1 - x3;
 
-      T dy1 = y2 - y1;
-      T dy2 = y1 - y3;
-      T dy3 = y4 - y3;
+      const T dy1 = y2 - y1;
+      const T dy2 = y1 - y3;
+      const T dy3 = y4 - y3;
 
       T ratio = dx1 * dy3 - dy1 * dx2;
 
@@ -1868,24 +1876,24 @@ namespace wykobi
                                    const T& x4, const T& y4, const T& z4,
                                          T& ix,       T& iy,       T& iz, const T& fuzzy)
    {
-      T ux = x2 - x1;
-      T uy = y2 - y1;
-      T uz = z2 - z1;
+      const T ux = x2 - x1;
+      const T uy = y2 - y1;
+      const T uz = z2 - z1;
 
-      T vx = x4 - x3;
-      T vy = y4 - y3;
-      T vz = z4 - z3;
+      const T vx = x4 - x3;
+      const T vy = y4 - y3;
+      const T vz = z4 - z3;
 
-      T wx = x1 - x3;
-      T wy = y1 - y3;
-      T wz = z1 - z3;
+      const T wx = x1 - x3;
+      const T wy = y1 - y3;
+      const T wz = z1 - z3;
 
-      T a  = (ux * ux + uy * uy + uz * uz);
-      T b  = (ux * vx + uy * vy + uz * vz);
-      T c  = (vx * vx + vy * vy + vz * vz);
-      T d  = (ux * wx + uy * wy + uz * wz);
-      T e  = (vx * wx + vy * wy + vz * wz);
-      T dt = a * c - b * b;
+      const T a  = (ux * ux + uy * uy + uz * uz);
+      const T b  = (ux * vx + uy * vy + uz * vz);
+      const T c  = (vx * vx + vy * vy + vz * vz);
+      const T d  = (ux * wx + uy * wy + uz * wz);
+      const T e  = (vx * wx + vy * wy + vz * wz);
+      const T dt = a * c - b * b;
 
       T sd = dt;
       T td = dt;
@@ -1904,6 +1912,7 @@ namespace wykobi
       {
          sn = (b * e - c * d);
          tn = (a * e - b * d);
+
          if (sn < T(0.0))
          {
             sn = T(0.0);
@@ -1921,6 +1930,7 @@ namespace wykobi
       if (tn < T(0.0))
       {
          tn = T(0.0);
+
          if (-d < T(0.0))
             sn = T(0.0);
          else if (-d > a)
@@ -1934,6 +1944,7 @@ namespace wykobi
       else if (tn > td)
       {
          tn = td;
+
          if ((-d + b) < T(0.0))
             sn = T(0.0);
          else if ((-d + b) > a)
@@ -1958,9 +1969,9 @@ namespace wykobi
       else
          tc = tn / td;
 
-      T dx = wx + (sc * ux) - (tc * vx);
-      T dy = wy + (sc * uy) - (tc * vy);
-      T dz = wz + (sc * uz) - (tc * vz);
+      const T dx = wx + (sc * ux) - (tc * vx);
+      const T dy = wy + (sc * uy) - (tc * vy);
+      const T dz = wz + (sc * uz) - (tc * vz);
 
       if ((dx * dx + dy * dy + dz * dz) <= sqr(fuzzy))
       {
@@ -1983,11 +1994,11 @@ namespace wykobi
                                   const point3d<T>& point4,
                                         T& ix, T& iy, T& iz, const T& fuzzy)
    {
-      intersection_point(point1.x,point1.y,point1.z,
-                         point2.x,point2.y,point2.z,
-                         point3.x,point3.y,point3.z,
-                         point4.x,point4.y,point4.z,
-                               ix,      iy,      iz,fuzzy);
+      intersection_point(point1.x, point1.y, point1.z,
+                         point2.x, point2.y, point2.z,
+                         point3.x, point3.y, point3.z,
+                         point4.x, point4.y, point4.z,
+                               ix,       iy,       iz,fuzzy);
    }
 
    template <typename T>
@@ -1997,11 +2008,11 @@ namespace wykobi
                                         const point3d<T>& point4, const T& fuzzy)
    {
       point3d<T> point_;
-      intersection_point(point1.x,point1.y,point1.z,
-                         point2.x,point2.y,point2.z,
-                         point3.x,point3.y,point3.z,
-                         point4.x,point4.y,point4.z,
-                         point_.x,point_.y,point_.z,fuzzy);
+      intersection_point(point1.x, point1.y, point1.z,
+                         point2.x, point2.y, point2.z,
+                         point3.x, point3.y, point3.z,
+                         point4.x, point4.y, point4.z,
+                         point_.x, point_.y, point_.z,fuzzy);
       return point_;
    }
 
@@ -2032,16 +2043,21 @@ namespace wykobi
                                         const plane<T,3>& plane)
    {
       vector3d<T> seg_vec = segment[1] - segment[0];
-      T denom = dot_product(seg_vec,plane.normal);
+
+      const T denom = dot_product(seg_vec,plane.normal);
+
       point3d<T> ipoint = degenerate_point3d<T>();
+
       if (not_equal(denom,T(0.0)))
       {
-         T t = -distance(segment[0],plane) / denom;
+         const T t = -distance(segment[0],plane) / denom;
+
          if ((t > T(0.0)) && (t < T(1.0)))
          {
             ipoint = segment[0] + t * (segment[1] - segment[0]);
          }
       }
+
       return ipoint;
    }
 
@@ -2121,14 +2137,14 @@ namespace wykobi
    inline point2d<T> intersection_point(const line<T,2>& line1,
                                         const line<T,2>& line2)
    {
-      T dx1 = line1[0].x - line1[1].x;
-      T dx2 = line2[0].x - line2[1].x;
-      T dx3 = line2[1].x - line1[1].x;
-      T dy1 = line1[0].y - line1[1].y;
-      T dy2 = line2[0].y - line2[1].y;
-      T dy3 = line2[1].y - line1[1].y;
+      const T dx1 = line1[0].x - line1[1].x;
+      const T dx2 = line2[0].x - line2[1].x;
+      const T dx3 = line2[1].x - line1[1].x;
+      const T dy1 = line1[0].y - line1[1].y;
+      const T dy2 = line2[0].y - line2[1].y;
+      const T dy3 = line2[1].y - line1[1].y;
 
-      T det = (dx2 * dy1) - (dy2 * dx1);
+      const T det = (dx2 * dy1) - (dy2 * dx1);
 
       point2d<T> point_ = make_point<T>(T(0.0),T(0.0));
 
@@ -2143,7 +2159,7 @@ namespace wykobi
          return point_;
       }
 
-      T ratio  = ((dx1 * dy3) - (dy1 * dx3)) / det;
+      const T ratio  = ((dx1 * dy3) - (dy1 * dx3)) / det;
 
       point_.x = (ratio * dx2) + line2[1].x;
       point_.y = (ratio * dy2) + line2[1].y;
@@ -2157,12 +2173,14 @@ namespace wykobi
                                         const T& fuzzy)
    {
       point3d<T> point_;
-      intersection_point_line_to_line(line1[0].x,line1[0].y,line1[0].z,
-                                      line1[1].x,line1[1].y,line1[1].z,
-                                      line2[0].x,line2[0].y,line2[0].z,
-                                      line2[1].x,line2[1].y,line2[1].z,
-                                        point_.x,  point_.y,  point_.z,
+
+      intersection_point_line_to_line(line1[0].x, line1[0].y, line1[0].z,
+                                      line1[1].x, line1[1].y, line1[1].z,
+                                      line2[0].x, line2[0].y, line2[0].z,
+                                      line2[1].x, line2[1].y, line2[1].z,
+                                        point_.x,   point_.y,   point_.z,
                                       fuzzy);
+
       return point_;
    }
 
@@ -2173,23 +2191,23 @@ namespace wykobi
                                         point2d<T>& point1,
                                         point2d<T>& point2)
    {
-      T dist    = distance(circle1.x,circle1.y,circle2.x,circle2.y);
+      const T dist    = distance(circle1.x,circle1.y,circle2.x,circle2.y);
 
-      T dstsqr  = dist * dist;
-      T r1sqr   = circle1.radius * circle1.radius;
-      T r2sqr   = circle2.radius * circle2.radius;
+      const T dstsqr  = dist * dist;
+      const T r1sqr   = circle1.radius * circle1.radius;
+      const T r2sqr   = circle2.radius * circle2.radius;
 
-      T a       = (dstsqr - r2sqr + r1sqr) / (2 * dist);
-      T h       = sqrt(r1sqr - (a*a));
+      const T a       = (dstsqr - r2sqr + r1sqr) / (2 * dist);
+      const T h       = sqrt(r1sqr - (a*a));
 
-      T ratio_a = a / dist;
-      T ratio_h = h / dist;
+      const T ratio_a = a / dist;
+      const T ratio_h = h / dist;
 
-      T dx      = circle2.x - circle1.x;
-      T dy      = circle2.y - circle1.y;
+            T dx      = circle2.x - circle1.x;
+            T dy      = circle2.y - circle1.y;
 
-      T phix    = circle1.x + (ratio_a * dx);
-      T phiy    = circle1.y + (ratio_a * dy);
+      const T phix    = circle1.x + (ratio_a * dx);
+      const T phiy    = circle1.y + (ratio_a * dy);
 
       dx       = dx * ratio_h;
       dy       = dy * ratio_h;
@@ -2214,6 +2232,7 @@ namespace wykobi
       if (intersect(segment,edge(triangle,1),ix,iy))
       {
          (*out++) = make_point(ix,iy);
+
          ++int_count;
       }
 
@@ -2226,6 +2245,7 @@ namespace wykobi
          }
 
          (*out++) = make_point(ix,iy);
+
          ++int_count;
       }
 
@@ -2251,9 +2271,11 @@ namespace wykobi
       vector3d<T> v   = triangle[2] - triangle[0];
       vector3d<T> n   = u * v;
       vector3d<T> w   = line[0] - triangle[0];
-      T a = dot_product(n,w) * T(-1.0);
-      T b = dot_product(n,dir);
-      T r = a / b;
+
+      const T a = dot_product(n,w) * T(-1.0);
+      const T b = dot_product(n,dir);
+      const T r = a / b;
+
       ipoint = line[0] + r * dir;
    }
 
@@ -2261,14 +2283,18 @@ namespace wykobi
    inline point3d<T> intersection_point(const line<T,3>&  line,
                                         const plane<T,3>& plane)
    {
-      vector3d<T> line_vec = line[1] - line[0];
-      T denom = dot_product(line_vec,plane.normal);
+      const vector3d<T> line_vec = line[1] - line[0];
+
+      const T denom = dot_product(line_vec,plane.normal);
+
       point3d<T> ipoint = degenerate_point3d<T>();
+
       if (not_equal(denom,T(0.0)))
       {
-         T t = -distance(line[0],plane) / denom;
+         const T t = -distance(line[0],plane) / denom;
          ipoint = line[0] + t * (line[1] - line[0]);
       }
+
       return ipoint;
    }
 
@@ -2279,11 +2305,11 @@ namespace wykobi
                                   const T& radius,
                                   OutputIterator out)
    {
-      bool p1_in_circle = point_in_circle(x1,y1,cx,cy,radius);
-      bool p2_in_circle = point_in_circle(x2,y2,cx,cy,radius);
+      const bool p1_in_circle = point_in_circle(x1, y1, cx, cy, radius);
+      const bool p2_in_circle = point_in_circle(x2, y2, cx, cy, radius);
 
-      T    ix           = T(0.0);
-      T    iy           = T(0.0);
+      T ix = T(0.0);
+      T iy = T(0.0);
 
       if (p1_in_circle && p2_in_circle)
       {
@@ -2302,8 +2328,8 @@ namespace wykobi
 
          if (p1_in_circle)
          {
-            T h = distance(px,py,cx,cy);
-            T a = sqrt((radius * radius) - (h * h));
+            const T h = distance(px,py,cx,cy);
+            const T a = sqrt((radius * radius) - (h * h));
 
             (*out++) = make_point(x1,y1);
 
@@ -2313,8 +2339,8 @@ namespace wykobi
          }
          else if (p2_in_circle)
          {
-            T h = distance(px,py,cx,cy);
-            T a = sqrt((radius * radius) - (h * h));
+            const T h = distance(px,py,cx,cy);
+            const T a = sqrt((radius * radius) - (h * h));
 
             (*out++) = make_point(x2,y2);
 
@@ -2347,16 +2373,18 @@ namespace wykobi
          else if (is_equal(h,T(0.0)))
          {
             project_point(cx,cy,x1,y1,radius,ix,iy);
+
             (*out++) = make_point(ix,iy);
 
             project_point(cx,cy,x2,y2,radius,ix,iy);
+
             (*out++) = make_point(ix,iy);
 
             return;
          }
          else
          {
-            T a = sqrt((radius * radius) - (h * h));
+            const T a = sqrt((radius * radius) - (h * h));
 
             project_point(px,py,x1,y1,a,ix,iy);
 
@@ -2382,16 +2410,16 @@ namespace wykobi
                                   const circle<T>& circle,
                                   OutputIterator   out)
    {
-      T a =  sqr(line[1].x - line[0].x) + sqr(line[1].y - line[0].y);
+      const T a =  sqr(line[1].x - line[0].x) + sqr(line[1].y - line[0].y);
 
-      T b =  T(2.0) * ((line[1].x - line[0].x)*(line[0].x - circle.x) +
-                       (line[1].y - line[0].y)*(line[0].y - circle.y));
+      const T b =  T(2.0) * ((line[1].x - line[0].x)*(line[0].x - circle.x) +
+                             (line[1].y - line[0].y)*(line[0].y - circle.y));
 
-      T c = sqr(circle.x)  + sqr(circle.y)  +
-            sqr(line[0].x) + sqr(line[0].y) -
-            T(2.0) * (circle.x * line[0].x + circle.y * line[0].y) - sqr(circle.radius);
+      const T c = sqr(circle.x)  + sqr(circle.y)  +
+                  sqr(line[0].x) + sqr(line[0].y) -
+                  T(2.0) * (circle.x * line[0].x + circle.y * line[0].y) - sqr(circle.radius);
 
-      T det =  b * b - T(4.0) * a * c;
+      const T det =  b * b - T(4.0) * a * c;
 
       if (det < T(0.0))
       {
@@ -2399,19 +2427,22 @@ namespace wykobi
       }
       else if (is_equal(det,T(0.0)))
       {
-         T delta = -b / (T(2.0) * a);
+         const T delta = -b / (T(2.0) * a);
+
          (*out++) = make_point(line[0].x + delta * (line[1].x - line[0].x),line[0].y + delta * (line[1].y - line[0].y));
 
          return;
       }
       else if (det > T(0.0))
       {
-         T sqrt_det = sqrt(det);
+         const T sqrt_det = sqrt(det);
 
          T delta = (-b + sqrt_det) / (T(2.0) * a);
+
          (*out++) = make_point(line[0].x + delta * (line[1].x - line[0].x),line[0].y + delta * (line[1].y - line[0].y));
 
          delta = (-b - sqrt_det) / (T(2.0) * a);
+
          (*out++) = make_point(line[0].x + delta * (line[1].x - line[0].x),line[0].y + delta * (line[1].y - line[0].y));
 
          return;
@@ -2441,18 +2472,18 @@ namespace wykobi
                                   const sphere<T>& sphere,
                                   OutputIterator   out)
    {
-      T a =  sqr(line[1].x - line[0].x) + sqr(line[1].y - line[0].y) + sqr(line[1].z - line[0].z);
+      const T a =  sqr(line[1].x - line[0].x) + sqr(line[1].y - line[0].y) + sqr(line[1].z - line[0].z);
 
-      T b =  T(2.0) * ((line[1].x - line[0].x)*(line[0].x - sphere.x) +
-                       (line[1].y - line[0].y)*(line[0].y - sphere.y) +
-                       (line[1].z - line[0].z)*(line[0].z - sphere.z));
+      const T b =  T(2.0) * ((line[1].x - line[0].x)*(line[0].x - sphere.x) +
+                             (line[1].y - line[0].y)*(line[0].y - sphere.y) +
+                             (line[1].z - line[0].z)*(line[0].z - sphere.z));
 
-      T c = sqr(sphere.x)  + sqr(sphere.y)  +
-            sqr(sphere.z)  + sqr(line[0].x) +
-            sqr(line[0].y) + sqr(line[0].z) -
-            T(2.0) * (sphere.x * line[0].x + sphere.y * line[0].y + sphere.z * line[0].z) - sqr(sphere.radius);
+      const T c = sqr(sphere.x)  + sqr(sphere.y)  +
+                  sqr(sphere.z)  + sqr(line[0].x) +
+                  sqr(line[0].y) + sqr(line[0].z) -
+                  T(2.0) * (sphere.x * line[0].x + sphere.y * line[0].y + sphere.z * line[0].z) - sqr(sphere.radius);
 
-      T det =  b * b - T(4.0) * a * c ;
+      const T det =  b * b - T(4.0) * a * c ;
 
       if (det < T(0.0))
       {
@@ -2460,7 +2491,7 @@ namespace wykobi
       }
       else if (is_equal(det,T(0.0)))
       {
-         T delta = -b / (T(2.0) * a);
+         const T delta = -b / (T(2.0) * a);
 
          (*out++) = make_point(line[0].x + delta * (line[1].x - line[0].x),
                                line[0].y + delta * (line[1].y - line[0].y),
@@ -2487,13 +2518,17 @@ namespace wykobi
    template <typename T>
    inline point2d<T> intersection_point(const ray<T,2>& ray1, const ray<T,2>& ray2)
    {
-      T denom = (ray2.direction.y * ray1.direction.x  - ray2.direction.x * ray1.direction.y);
+      const T denom = (ray2.direction.y * ray1.direction.x  - ray2.direction.x * ray1.direction.y);
+
       if (denom != T(0.0))
       {
-         T ta    = (ray2.direction.x * (ray1.origin.y - ray2.origin.y) - ray2.direction.y * (ray1.origin.x - ray2.origin.x)) / denom;
-         T tb    = (ray1.direction.y * (ray2.origin.x - ray1.origin.x) - ray1.direction.x * (ray2.origin.y - ray1.origin.y)) / denom;
+         const T ta = (ray2.direction.x * (ray1.origin.y - ray2.origin.y) - ray2.direction.y * (ray1.origin.x - ray2.origin.x)) / denom;
+         const T tb = (ray1.direction.y * (ray2.origin.x - ray1.origin.x) - ray1.direction.x * (ray2.origin.y - ray1.origin.y)) / denom;
 
-         if ((greater_than_or_equal(ta,T(0.0)) &&  greater_than_or_equal(tb,T(0.0))))
+         if (
+              greater_than_or_equal(ta,T(0.0)) &&
+              greater_than_or_equal(tb,T(0.0))
+            )
             return make_point (ray1.origin.x + (ray1.direction.x * ta),ray1.origin.y + (ray1.direction.y * ta));
          else
             return degenerate_point2d<T>();
@@ -2510,63 +2545,73 @@ namespace wykobi
    template <typename T>
    inline point3d<T> intersection_point(const ray<T,3>& ray, const triangle<T,3>& triangle)
    {
-      T edge1_x = triangle[1].x - triangle[0].x;
-      T edge1_y = triangle[1].y - triangle[0].y;
-      T edge1_z = triangle[1].z - triangle[0].z;
+      const T edge1_x = triangle[1].x - triangle[0].x;
+      const T edge1_y = triangle[1].y - triangle[0].y;
+      const T edge1_z = triangle[1].z - triangle[0].z;
 
-      T edge2_x = triangle[2].x - triangle[0].x;
-      T edge2_y = triangle[2].y - triangle[0].y;
-      T edge2_z = triangle[2].z - triangle[0].z;
+      const T edge2_x = triangle[2].x - triangle[0].x;
+      const T edge2_y = triangle[2].y - triangle[0].y;
+      const T edge2_z = triangle[2].z - triangle[0].z;
 
-      T pvec_x = ray.direction.y * edge2_z - ray.direction.z * edge2_y;
-      T pvec_y = ray.direction.z * edge2_x - ray.direction.x * edge2_z;
-      T pvec_z = ray.direction.x * edge2_y - ray.direction.y * edge2_x;
+      const T pvec_x = ray.direction.y * edge2_z - ray.direction.z * edge2_y;
+      const T pvec_y = ray.direction.z * edge2_x - ray.direction.x * edge2_z;
+      const T pvec_z = ray.direction.x * edge2_y - ray.direction.y * edge2_x;
 
-      T det = edge1_x * pvec_x + edge1_y * pvec_y + edge1_z * pvec_z;
+      const T det = edge1_x * pvec_x + edge1_y * pvec_y + edge1_z * pvec_z;
 
-      if (is_equal(det,T(0.0))) return degenerate_point3d<T>();
+      if (is_equal(det,T(0.0)))
+      {
+         return degenerate_point3d<T>();
+      }
 
-      T inv_det = T(1.0) / det;
+      const T inv_det = T(1.0) / det;
 
-      T tvec_x = ray.origin.x - triangle[0].x;
-      T tvec_y = ray.origin.y - triangle[0].y;
-      T tvec_z = ray.origin.z - triangle[0].z;
+      const T tvec_x = ray.origin.x - triangle[0].x;
+      const T tvec_y = ray.origin.y - triangle[0].y;
+      const T tvec_z = ray.origin.z - triangle[0].z;
 
-      T u = (tvec_x * pvec_x + tvec_y * pvec_y + tvec_z * pvec_z) * inv_det;
+      const T u = (tvec_x * pvec_x + tvec_y * pvec_y + tvec_z * pvec_z) * inv_det;
 
-      if (u < 0.0 || u > 1.0) return degenerate_point3d<T>();
+      if (u < 0.0 || u > 1.0)
+      {
+         return degenerate_point3d<T>();
+      }
 
-      T qvec_x = tvec_y * edge1_z - tvec_z * edge1_y;
-      T qvec_y = tvec_z * edge1_x - tvec_x * edge1_z;
-      T qvec_z = tvec_x * edge1_y - tvec_y * edge1_x;
+      const T qvec_x = tvec_y * edge1_z - tvec_z * edge1_y;
+      const T qvec_y = tvec_z * edge1_x - tvec_x * edge1_z;
+      const T qvec_z = tvec_x * edge1_y - tvec_y * edge1_x;
 
-      T v = (ray.direction.x * qvec_x + ray.direction.y * qvec_y + ray.direction.z * qvec_z) * inv_det;
+      const T v = (ray.direction.x * qvec_x + ray.direction.y * qvec_y + ray.direction.z * qvec_z) * inv_det;
 
-      if ((v < 0.0) || ((u + v) > 1.0)) return degenerate_point3d<T>();
+      if ((v < 0.0) || ((u + v) > 1.0))
+      {
+         return degenerate_point3d<T>();
+      }
 
-      T t = (edge2_x * qvec_x + edge2_y * qvec_y + edge2_z * qvec_z) * inv_det;
+      const T t = (edge2_x * qvec_x + edge2_y * qvec_y + edge2_z * qvec_z) * inv_det;
 
-      return make_point (ray.origin.x + (ray.direction.x * t),
-                         ray.origin.y + (ray.direction.y * t),
-                         ray.origin.z + (ray.direction.z * t));
+      return make_point(ray.origin.x + (ray.direction.x * t),
+                        ray.origin.y + (ray.direction.y * t),
+                        ray.origin.z + (ray.direction.z * t));
    }
 
    template <typename T>
    inline point3d<T> intersection_point(const ray<T,3>& ray, const plane<T,3>& plane)
    {
-      T denom = dot_product(ray.direction,plane.normal);
+      const T denom = dot_product(ray.direction,plane.normal);
 
       point3d<T> ipoint = degenerate_point3d<T>();
 
       if (not_equal(denom,T(0.0)))
       {
-         T t = -distance(ray.origin,plane) / denom;
+         const T t = -distance(ray.origin,plane) / denom;
 
          if (t >= T(0.0))
          {
             ipoint = ray.origin + t * ray.direction;
          }
       }
+
       return ipoint;
    }
 
@@ -2598,32 +2643,38 @@ namespace wykobi
                                   OutputIterator out)
    {
       vector3d<T> v = ray.origin - make_point(sphere);
+
       T diff = dot_product(v,v) - sqr(sphere.radius);
 
       if (less_than_or_equal(diff,T(0.0)))
       {
-         T b = dot_product(ray.direction,v);
-         T t = -b + sqrt(sqr(b) - diff);
+         const T b = dot_product(ray.direction,v);
+         const T t = -b + sqrt(sqr(b) - diff);
+
          (*out++) = (ray.origin + t * ray.direction);
+
          return;
       }
 
-      T a = dot_product(ray.direction,v);
+      const T a = dot_product(ray.direction,v);
+
       if (greater_than_or_equal(a,T(0.0)))
       {
          return;
       }
 
-      T det = sqr(a) - diff;
+      const T det = sqr(a) - diff;
+
       if (det < T(0.0))
       {
           return;
       }
       else if (greater_than_or_equal(det,T(0.0)))
       {
-         T root = sqrt(det);
-         T t1 = -a - root;
-         T t2 = -a + root;
+         const T root = sqrt(det);
+         const T t1 = -a - root;
+         const T t2 = -a + root;
+
          (*out++) = (ray.origin + t1 * ray.direction);
          (*out++) = (ray.origin + t2 * ray.direction);
       }
@@ -2641,30 +2692,32 @@ namespace wykobi
                                                      T& ix,       T& iy,       T& iz,
                                                const T& fuzzy)
    {
-      T ux = x2 - x1;
-      T uy = y2 - y1;
-      T uz = z2 - z1;
+      const T ux = x2 - x1;
+      const T uy = y2 - y1;
+      const T uz = z2 - z1;
 
-      T vx = x4 - x3;
-      T vy = y4 - y3;
-      T vz = z4 - z3;
+      const T vx = x4 - x3;
+      const T vy = y4 - y3;
+      const T vz = z4 - z3;
 
-      T wx = x1 - x3;
-      T wy = y1 - y3;
-      T wz = z1 - z3;
+      const T wx = x1 - x3;
+      const T wy = y1 - y3;
+      const T wz = z1 - z3;
 
-      T a  = (ux * ux + uy * uy + uz * uz);
-      T b  = (ux * vx + uy * vy + uz * vz);
-      T c  = (vx * vx + vy * vy + vz * vz);
-      T d  = (ux * wx + uy * wy + uz * wz);
-      T e  = (vx * wx + vy * wy + vz * wz);
-      T dt = a * c - b * b;
+      const T a  = (ux * ux + uy * uy + uz * uz);
+      const T b  = (ux * vx + uy * vy + uz * vz);
+      const T c  = (vx * vx + vy * vy + vz * vz);
+      const T d  = (ux * wx + uy * wy + uz * wz);
+      const T e  = (vx * wx + vy * wy + vz * wz);
+      const T dt = a * c - b * b;
+
       T sc = T(0.0);
       T tc = T(0.0);
 
       if (is_equal(dt,T(0.0)))
       {
          sc = T(0.0);
+
          if (b > c )
             tc = d / b;
          else
@@ -2676,9 +2729,9 @@ namespace wykobi
          tc = (a * e - b * d) / dt;
       }
 
-      T dx = wx + (sc * ux) - (tc * vx);
-      T dy = wy + (sc * uy) - (tc * vy);
-      T dz = wz + (sc * uz) - (tc * vz);
+      const T dx = wx + (sc * ux) - (tc * vx);
+      const T dy = wy + (sc * uy) - (tc * vy);
+      const T dz = wz + (sc * uz) - (tc * vz);
 
       if ((dx * dx + dy * dy + dz * dz) <= sqr(fuzzy))
       {
@@ -2698,6 +2751,7 @@ namespace wykobi
    inline T normalize_angle(const T& angle)
    {
       T n_angle = angle;
+
       if (n_angle > T(360.0))
       {
          n_angle = n_angle - (int(n_angle / T(360.0)) * T(360.0));
@@ -2709,16 +2763,20 @@ namespace wykobi
             n_angle = n_angle + T(360.0);
          }
       }
+
       return n_angle;
    }
 
    template <typename T>
    inline T vertical_mirror(const T& angle)
    {
-      if (is_equal(angle,   T(0.0)) ||
-          is_equal(angle, T(180.0)) ||
-          is_equal(angle,T(360.0)))
+      if (
+           is_equal(angle,  T(0.0)) ||
+           is_equal(angle,T(180.0)) ||
+           is_equal(angle,T(360.0))
+         )
          return angle;
+
       return (T(360.0) - angle);
    }
 
@@ -2774,20 +2832,22 @@ namespace wykobi
          a         : is the angle at the vertex opposite edge 'a'
          aka the edge defined by the vertex <x1y1-x2y2-x3y3>
       */
+
       /* quantify coordinates */
-      T x1_ = x1 - x2;
-      T x3_ = x3 - x2;
-      T y1_ = y1 - y2;
-      T y3_ = y3 - y2;
+      const T x1_ = x1 - x2;
+      const T x3_ = x3 - x2;
+      const T y1_ = y1 - y2;
+      const T y3_ = y3 - y2;
 
       /* calculate lay distance */
-      T dist = (x1_ * x1_ + y1_ * y1_) * (x3_ * x3_ + y3_ * y3_);
+      const T dist = (x1_ * x1_ + y1_ * y1_) * (x3_ * x3_ + y3_ * y3_);
 
       if (is_equal(dist,T(0.0)))
          return T(0.0);
       else
       {
-         T input_term = (x1_ * x3_ + y1_ * y3_) / sqrt(dist);
+         const T input_term = (x1_ * x3_ + y1_ * y3_) / sqrt(dist);
+
          if (is_equal(input_term,T(1.0)))
             return T(0.0);
          else if (is_equal(input_term,T(-1.0)))
@@ -2818,15 +2878,15 @@ namespace wykobi
       */
 
       /* Quantify coordinates */
-      T x1_ = x1 - x2;
-      T x3_ = x3 - x2;
-      T y1_ = y1 - y2;
-      T y3_ = y3 - y2;
-      T z1_ = z1 - z2;
-      T z3_ = z3 - z2;
+      const T x1_ = x1 - x2;
+      const T x3_ = x3 - x2;
+      const T y1_ = y1 - y2;
+      const T y3_ = y3 - y2;
+      const T z1_ = z1 - z2;
+      const T z3_ = z3 - z2;
 
       /* Calculate Ley Distance */
-      T dist = (x1_ * x1_ + y1_ * y1_ + z1_ * z1_) * (x3_ * x3_ + y3_ * y3_ + z3_ * z3_);
+      const T dist = (x1_ * x1_ + y1_ * y1_ + z1_ * z1_) * (x3_ * x3_ + y3_ * y3_ + z3_ * z3_);
 
       if (is_equal(dist,T(0.0)))
          return T(0.0);
@@ -2986,14 +3046,14 @@ namespace wykobi
          Worst case scenario: 6 multiplications and 9 subtractions
       */
 
-      T dx1 = x1 - x2;
-      T dx2 = x3 - x4;
+      const T dx1 = x1 - x2;
+      const T dx2 = x3 - x4;
 
-      T dy1 = y1 - y2;
-      T dy2 = y3 - y4;
+      const T dy1 = y1 - y2;
+      const T dy2 = y3 - y4;
 
-      T dz1 = z1 - z2;
-      T dz2 = z3 - z4;
+      const T dz1 = z1 - z2;
+      const T dz2 = z3 - z4;
 
       if (not_equal((dy1 * dx2),(dy2 * dx1),epsilon)) return false;
       if (not_equal((dz1 * dy2),(dz2 * dy1),epsilon)) return false;
@@ -3044,9 +3104,16 @@ namespace wykobi
       T py1 = T(0.0);
       T px2 = T(0.0);
       T py2 = T(0.0);
+
       closest_point_on_line_from_point(x1,y1,x2,y2,x3,y3,px1,py1);
       closest_point_on_line_from_point(x1,y1,x2,y2,x4,y4,px2,py2);
-      return is_equal(distance(x3,y3,px1,py1),distance(x4,y4,px2,py2),epsilon);
+
+      return is_equal
+             (
+               distance(x3, y3, px1, py1),
+               distance(x4, y4, px2, py2),
+               epsilon
+             );
    }
 
    template <typename T>
@@ -3106,7 +3173,13 @@ namespace wykobi
 
       closest_point_on_line_from_point(x1,y1,z1,x2,y2,z2,x3,y3,z3,px1,py1,pz1);
       closest_point_on_line_from_point(x1,y1,z1,x2,y2,z2,x4,y4,z4,px2,py2,pz2);
-      return is_equal(distance(x3,y3,z3,px1,py1,pz1),distance(x4,y4,z4,px2,py2,pz2),epsilon);
+
+      return is_equal
+             (
+               distance(x3, y3, z3, px1, py1, pz1),
+               distance(x4, y4, z4, px2, py2, pz2),
+               epsilon
+             );
    }
 
    template <typename T>
@@ -3210,16 +3283,16 @@ namespace wykobi
          be 0 if the segments are perpendicular
       */
 
-      T dx1 = x1 - x2;
-      T dx2 = x3 - x4;
+      const T dx1 = x1 - x2;
+      const T dx2 = x3 - x4;
 
-      T dy1 = y1 - y2;
-      T dy2 = y3 - y4;
+      const T dy1 = y1 - y2;
+      const T dy2 = y3 - y4;
 
-      T dz1 = z1 - z2;
-      T dz2 = z3 - z4;
+      const T dz1 = z1 - z2;
+      const T dz2 = z3 - z4;
 
-      return is_equal((dx1 * dx2) + (dy1 * dy2) + (dz1 * dz2),T(0.0),epsilon);
+      return is_equal((dx1 * dx2) + (dy1 * dy2) + (dz1 * dz2), T(0.0), epsilon);
    }
 
    template <typename T>
@@ -3267,6 +3340,7 @@ namespace wykobi
 
       closest_point_on_line_from_point(x1,y1,x2,y2,x3,y3,p1x,p1y);
       closest_point_on_line_from_point(x1,y1,x2,y2,x4,y4,p2x,p2y);
+
       return is_equal(distance(p1x,p1y,p2x,p2y),T(0.0),epsilon);
    }
 
@@ -3326,6 +3400,7 @@ namespace wykobi
 
       closest_point_on_line_from_point(x1,y1,z1,x2,y2,z2,x3,y3,z3,p1x,p1y,p1z);
       closest_point_on_line_from_point(x1,y1,z1,x2,y2,z2,x4,y4,z4,p2x,p2y,p2z);
+
       return is_equal(distance(p1x,p1y,p1z,p2x,p2y,p2z),T(0.0),epsilon);
    }
 
@@ -3387,7 +3462,10 @@ namespace wykobi
                                                 const T& x3, const T& y3,
                                                 const T& x4, const T& y4)
    {
-      return ((x1 <= x4) && (x2 >= x3) && (y1 <= y4) && (y2 >= y3));
+      return (
+               (x1 <= x4) && (x2 >= x3) &&
+               (y1 <= y4) && (y2 >= y3)
+             );
    }
 
    template <typename T>
@@ -3406,7 +3484,11 @@ namespace wykobi
                                     const T& x3, const T& y3, const T& z3,
                                     const T& x4, const T& y4, const T& z4)
    {
-      return ((x1 <= x4) && (x2 >= x3) && (y1 <= y4) && (y2 >= y3) && (z1 <= z4) && (z2 >= z3));
+      return (
+               (x1 <= x4) && (x2 >= x3) &&
+               (y1 <= y4) && (y2 >= y3) &&
+               (z1 <= z4) && (z2 >= z3)
+             );
    }
 
    template <typename T>
@@ -3427,13 +3509,15 @@ namespace wykobi
 
       typedef typename define_point_type<T,Dimension>::PointType PointType;
 
+      const T dt = T(1.0) / (T(1.0) * steps - T(1.0));
       T t  = T(0.0);
-      T dt = T(1.0) / (T(1.0) * steps - T(1.0));
+
       bezier_coefficients<T,Dimension,Bezier::Type> coeffs;
 
       calculate_bezier_coefficients(bezier,coeffs);
 
       PointType previous_point = create_point_on_bezier(bezier[0],coeffs,t);
+
       t += dt;
 
       for (std::size_t i = 1; i < steps; ++i)
@@ -3446,6 +3530,7 @@ namespace wykobi
          }
 
          previous_point = current_point;
+
          t += dt;
       }
 
@@ -3649,9 +3734,9 @@ namespace wykobi
                                    const T& x4, const T& y4, const T& z4,
                                    const T& x5, const T& y5, const T& z5)
    {
-      return point_in_box(x1,y1,z1,x4,y4,z4,x5,y5,z5) &&
-             point_in_box(x2,y2,z2,x4,y4,z4,x5,y5,z5) &&
-             point_in_box(x3,y3,z3,x4,y4,z4,x5,y5,z5);
+      return point_in_box(x1, y1, z1, x4, y4, z4, x5, y5, z5) &&
+             point_in_box(x2, y2, z2, x4, y4, z4, x5, y5, z5) &&
+             point_in_box(x3, y3, z3, x4, y4, z4, x5, y5, z5);
 
    }
 
@@ -3671,17 +3756,17 @@ namespace wykobi
                                   const T& x3, const T& y3, const T& z3,
                                   const T& x4, const T& y4, const T& z4)
    {
-      return point_in_box(x1,y1,z1,x3,y3,z3,x4,y4,z4) &&
-             point_in_box(x2,y2,z2,x3,y3,z3,x4,y4,z4);
+      return point_in_box(x1, y1, z1, x3, y3, z3, x4, y4, z4) &&
+             point_in_box(x2, y2, z2, x3, y3, z3, x4, y4, z4);
    }
 
    template <typename T>
    inline bool segment_within_box(const segment<T,3>& segment, const box<T,3>& box)
    {
-      return segment_within_box(segment[0].x,segment[0].y,segment[0].z,
-                                segment[1].x,segment[1].y,segment[1].z,
-                                    box[0].x,    box[0].y,    box[0].z,
-                                    box[1].x,    box[1].y,    box[1].z);
+      return segment_within_box(segment[0].x, segment[0].y, segment[0].z,
+                                segment[1].x, segment[1].y, segment[1].z,
+                                    box[0].x,     box[0].y,     box[0].z,
+                                    box[1].x,     box[1].y,     box[1].z);
    }
 
 
@@ -3693,10 +3778,10 @@ namespace wykobi
                                  const T& x5, const T& y5, const T& z5,
                                  const T& x6, const T& y6, const T& z6)
    {
-      return point_in_box(x1,y1,z1,x5,y5,z5,x6,y6,z6) &&
-             point_in_box(x2,y2,z2,x5,y5,z5,x6,y6,z6) &&
-             point_in_box(x3,y3,z3,x5,y5,z5,x6,y6,z6) &&
-             point_in_box(x4,y4,z4,x5,y5,z5,x6,y6,z6);
+      return point_in_box(x1, y1, z1, x5, y5, z5, x6, y6, z6) &&
+             point_in_box(x2, y2, z2, x5, y5, z5, x6, y6, z6) &&
+             point_in_box(x3, y3, z3, x5, y5, z5, x6, y6, z6) &&
+             point_in_box(x4, y4, z4, x5, y5, z5, x6, y6, z6);
    }
 
    template <typename T>
@@ -3733,11 +3818,11 @@ namespace wykobi
    template <typename T>
    inline bool is_tangent(const segment<T,2>& segment, const circle<T>& circle)
    {
-      wykobi::segment<T,2> tmp_segment = translate(-circle.x,-circle.y,segment);
+      wykobi::segment<T,2> tmp_segment = translate(-circle.x, -circle.y, segment);
 
-      T rsqr  = wykobi::sqr(circle.radius);
-      T drsqr = lay_distance(tmp_segment);
-      T dsqr  = wykobi::sqr(tmp_segment[0].x * tmp_segment[1].y - tmp_segment[1].x * tmp_segment[0].y);
+      const T rsqr  = wykobi::sqr(circle.radius);
+      const T drsqr = lay_distance(tmp_segment);
+      const T dsqr  = wykobi::sqr(tmp_segment[0].x * tmp_segment[1].y - tmp_segment[1].x * tmp_segment[0].y);
 
       return is_equal((rsqr * drsqr - dsqr),T(0.0));
    }
@@ -4288,11 +4373,11 @@ namespace wykobi
                                const point2d<T>& point3,
                                const point2d<T>& point4)
    {
-      return point_in_quadix( point.x, point.y,
-                             point1.x,point1.y,
-                             point2.x,point2.y,
-                             point3.x,point3.y,
-                             point4.x,point4.y);
+      return point_in_quadix( point.x,  point.y,
+                             point1.x, point1.y,
+                             point2.x, point2.y,
+                             point3.x, point3.y,
+                             point4.x, point4.y);
    }
 
 
@@ -4300,11 +4385,11 @@ namespace wykobi
    inline bool point_in_quadix(const T& px, const T& py,
                                const quadix<T,2>& quadix)
    {
-      return point_in_quadix(         px,         py,
-                             quadix[0].x,quadix[0].y,
-                             quadix[1].x,quadix[1].y,
-                             quadix[2].x,quadix[2].y,
-                             quadix[3].x,quadix[3].y);
+      return point_in_quadix(         px,          py,
+                             quadix[0].x, quadix[0].y,
+                             quadix[1].x, quadix[1].y,
+                             quadix[2].x, quadix[2].y,
+                             quadix[3].x, quadix[3].y);
    }
 
    template <typename T>
@@ -4356,16 +4441,16 @@ namespace wykobi
                                            const T& x2, const T& y2,
                                            const T& x3, const T& y3)
    {
-      T dx1 = x1 - px;
-      T dx2 = x2 - px;
-      T dx3 = x3 - px;
-      T dy1 = y2 - py;
-      T dy2 = y3 - py;
-      T dy3 = y1 - py;
-      T a11 = dx3 * dy1 - dx2 * dy2;
-      T a12 = dx3 * dy3 - dx1 * dy2;
-      T a21 = dx2 * (x2 - x3) + dy1 * (y2 - y3);
-      T a22 = dx1 * (x1 - x3) + dy3 * (y1 - y3);
+      const T dx1 = x1 - px;
+      const T dx2 = x2 - px;
+      const T dx3 = x3 - px;
+      const T dy1 = y2 - py;
+      const T dy2 = y3 - py;
+      const T dy3 = y1 - py;
+      const T a11 = dx3 * dy1 - dx2 * dy2;
+      const T a12 = dx3 * dy3 - dx1 * dy2;
+      const T a21 = dx2 * (x2 - x3) + dy1 * (y2 - y3);
+      const T a22 = dx1 * (x1 - x3) + dy3 * (y1 - y3);
 
       return less_than_or_equal(a11 * a22 - a21 * a12,T(0.0));
    }
@@ -4376,10 +4461,10 @@ namespace wykobi
                                            const point2d<T>& point2,
                                            const point2d<T>& point3)
    {
-      return point_in_three_point_circle( point.x, point.y,
-                                         point1.x,point1.y,
-                                         point2.x,point2.y,
-                                         point3.x,point3.y);
+      return point_in_three_point_circle( point.x,  point.y,
+                                         point1.x, point1.y,
+                                         point2.x, point2.y,
+                                         point3.x, point3.y);
    }
 
    template <typename T>
@@ -4441,7 +4526,7 @@ namespace wykobi
    template <typename T>
    inline bool point_on_ray(const point2d<T>& point, const ray<T,2>& ray)
    {
-      T t = dot_product(ray.direction,point - ray.origin);
+      const T t = dot_product(ray.direction,point - ray.origin);
 
       if (greater_than_or_equal(t,T(0.0)))
       {
@@ -4454,7 +4539,7 @@ namespace wykobi
    template <typename T>
    inline bool point_on_ray(const point3d<T>& point, const ray<T,3>& ray)
    {
-      T t = dot_product(ray.direction,point - ray.origin);
+      const T t = dot_product(ray.direction,point - ray.origin);
 
       if (greater_than_or_equal(t,T(0.0)))
       {
@@ -4500,18 +4585,18 @@ namespace wykobi
                                  const T& x2, const T& y2,
                                  const T& x3, const T& y3)
    {
-      return is_point_collinear(x1,y1,x2,y2,px,py,true) ||
-             is_point_collinear(x2,y2,x3,y3,px,py,true) ||
-             is_point_collinear(x3,y3,x1,y1,px,py,true);
+      return is_point_collinear(x1, y1, x2, y2, px, py, true) ||
+             is_point_collinear(x2, y2, x3, y3, px, py, true) ||
+             is_point_collinear(x3, y3, x1, y1, px, py, true);
    }
 
    template <typename T>
    inline bool point_on_triangle(const T& px, const T& py, const triangle<T,2>& triangle)
    {
-      return point_on_triangle(           px,           py,
-                               triangle[0].x,triangle[0].y,
-                               triangle[1].x,triangle[1].y,
-                               triangle[2].x,triangle[2].y);
+      return point_on_triangle(           px,            py,
+                               triangle[0].x, triangle[0].y,
+                               triangle[1].x, triangle[1].y,
+                               triangle[2].x, triangle[2].y);
    }
 
    template <typename T>
@@ -4529,10 +4614,10 @@ namespace wykobi
    template <typename T>
    inline bool point_on_triangle(const point2d<T>& point, const triangle<T,2>& triangle)
    {
-      return point_on_triangle(      point.x,      point.y,
-                               triangle[0].x,triangle[0].y,
-                               triangle[1].x,triangle[1].y,
-                               triangle[2].x,triangle[2].y);
+      return point_on_triangle(      point.x,       point.y,
+                               triangle[0].x, triangle[0].y,
+                               triangle[1].x, triangle[1].y,
+                               triangle[2].x, triangle[2].y);
    }
 
    template <typename T>
@@ -4542,10 +4627,10 @@ namespace wykobi
                                const T& x3, const T& y3,
                                const T& x4, const T& y4)
    {
-      return is_point_collinear(x1,y1,x2,y2,px,py,true) ||
-             is_point_collinear(x2,y2,x3,y3,px,py,true) ||
-             is_point_collinear(x3,y3,x4,y4,px,py,true) ||
-             is_point_collinear(x4,y4,x1,y1,px,py,true);
+      return is_point_collinear(x1, y1, x2, y2, px, py, true) ||
+             is_point_collinear(x2, y2, x3, y3, px, py, true) ||
+             is_point_collinear(x3, y3, x4, y4, px, py, true) ||
+             is_point_collinear(x4, y4, x1, y1, px, py, true);
    }
 
    template <typename T>
@@ -4555,22 +4640,22 @@ namespace wykobi
                                const point2d<T>& point3,
                                const point2d<T>& point4)
    {
-      return point_on_quadix( point.x, point.y,
-                             point1.x,point1.y,
-                             point2.x,point2.y,
-                             point3.x,point3.y,
-                             point4.x,point4.y);
+      return point_on_quadix( point.x,  point.y,
+                             point1.x, point1.y,
+                             point2.x, point2.y,
+                             point3.x, point3.y,
+                             point4.x, point4.y);
    }
 
    template <typename T>
    inline bool point_on_quadix(const T& px, const T& py,
                                const quadix<T,2>& quadix)
    {
-      return point_on_quadix(         px,         py,
-                             quadix[0].x,quadix[0].y,
-                             quadix[1].x,quadix[1].y,
-                             quadix[2].x,quadix[2].y,
-                             quadix[3].x,quadix[3].y);
+      return point_on_quadix(         px,          py,
+                             quadix[0].x, quadix[0].y,
+                             quadix[1].x, quadix[1].y,
+                             quadix[2].x, quadix[2].y,
+                             quadix[3].x, quadix[3].y);
    }
 
    template <typename T>
@@ -4698,8 +4783,8 @@ namespace wykobi
       const T cos60 = T(0.50000000000000000000000000000000);
 
       /* translate for x1,y1 to be origin */
-      T tx = x2 - x1;
-      T ty = y2 - y1;
+      const T tx = x2 - x1;
+      const T ty = y2 - y1;
 
       /* rotate 60 degrees and translate back */
       x3 = ((tx * cos60) - (ty * sin60)) + x1;
@@ -5089,9 +5174,9 @@ namespace wykobi
    {
       wykobi::triangle<T,2> triangle_ = create_excentral_triangle(triangle);
 
-      triangle_[0] = closest_point_on_segment_from_point(opposing_edge(triangle,0),triangle_[0]);
-      triangle_[1] = closest_point_on_segment_from_point(opposing_edge(triangle,1),triangle_[1]);
-      triangle_[2] = closest_point_on_segment_from_point(opposing_edge(triangle,2),triangle_[2]);
+      triangle_[0] = closest_point_on_segment_from_point(opposing_edge(triangle,0), triangle_[0]);
+      triangle_[1] = closest_point_on_segment_from_point(opposing_edge(triangle,1), triangle_[1]);
+      triangle_[2] = closest_point_on_segment_from_point(opposing_edge(triangle,2), triangle_[2]);
 
       return triangle_;
    }
@@ -5101,9 +5186,9 @@ namespace wykobi
    {
       wykobi::triangle<T,3> triangle_ = create_excentral_triangle(triangle);
 
-      triangle_[0] = closest_point_on_segment_from_point(opposing_edge(triangle,0),triangle_[0]);
-      triangle_[1] = closest_point_on_segment_from_point(opposing_edge(triangle,1),triangle_[1]);
-      triangle_[2] = closest_point_on_segment_from_point(opposing_edge(triangle,2),triangle_[2]);
+      triangle_[0] = closest_point_on_segment_from_point(opposing_edge(triangle,0), triangle_[0]);
+      triangle_[1] = closest_point_on_segment_from_point(opposing_edge(triangle,1), triangle_[1]);
+      triangle_[2] = closest_point_on_segment_from_point(opposing_edge(triangle,2), triangle_[2]);
 
       return triangle_;
    }
@@ -5113,9 +5198,9 @@ namespace wykobi
    {
       circle<T> circle = nine_point_circle(triangle);
 
-      return make_triangle(project_point(make_point(circle),make_point(excircle(triangle,0)),circle.radius),
-                           project_point(make_point(circle),make_point(excircle(triangle,1)),circle.radius),
-                           project_point(make_point(circle),make_point(excircle(triangle,2)),circle.radius));
+      return make_triangle(project_point(make_point(circle), make_point(excircle(triangle,0)), circle.radius),
+                           project_point(make_point(circle), make_point(excircle(triangle,1)), circle.radius),
+                           project_point(make_point(circle), make_point(excircle(triangle,2)), circle.radius));
    }
 
    template <typename T>
@@ -5135,6 +5220,7 @@ namespace wykobi
       intersection_point(make_line(triangle[2],point),circum_circle,std::back_inserter(ipoint));
       if (ipoint.empty() || (2 != ipoint.size())) return triangle_;
       triangle_[2] = (is_equal(ipoint[0],triangle[2])) ? ipoint[1] : ipoint[0];
+
       return triangle_;
    }
 
@@ -5156,6 +5242,7 @@ namespace wykobi
       intersection_point(make_line(triangle[2],point_),circum_circle,std::back_inserter(ipoint));
       if (ipoint.empty() || (2 != ipoint.size())) return triangle_;
       triangle_[2] = (is_equal(ipoint[0],triangle[2])) ? ipoint[1] : ipoint[0];
+
       return triangle_;
    }
 
@@ -5183,7 +5270,7 @@ namespace wykobi
    template <typename T> inline void create_right_triangle(const wykobi::point2d<T>& p1, const wykobi::point2d<T>& p2,
                                                                  wykobi::point2d<T>& c1,       wykobi::point2d<T>& c2)
    {
-      T distance = wykobi::distance(p1,p2);
+      const T distance = wykobi::distance(p1,p2);
 
       wykobi::point2d<T> mid = wykobi::segment_mid_point(p1,p2);
       wykobi::vector2d<T> v = wykobi::normalize(wykobi::perpendicular(p1 - p2)) * (distance / T(2.0));
@@ -5198,8 +5285,8 @@ namespace wykobi
                                                T& x3,       T& y3,
                                                T& x4,       T& y4)
    {
-      T tx = x2 - x1;
-      T ty = y2 - y1;
+      const T tx = x2 - x1;
+      const T ty = y2 - y1;
       x4 = x1 - ty;
       y4 = y1 + tx;
       x3 = x2 - ty;
@@ -5280,18 +5367,21 @@ namespace wykobi
       {
          px = x2;
          py = y2;
+
          return;
       }
       else if (greater_than_or_equal(vertex_angle(x3,y3,x1,y1,x2,y2),T(120.0)))
       {
          px = x1;
          py = y1;
+
          return;
       }
       else if (greater_than_or_equal(vertex_angle(x2,y2,x3,y3,x1,y1),T(120.0)))
       {
          px = x3;
          py = y3;
+
          return;
       }
       else
@@ -5638,9 +5728,11 @@ namespace wykobi
       T hy2 = T(0.0);
       T hx3 = T(0.0);
       T hy3 = T(0.0);
+
       closest_point_on_line_from_point(x2,y2,x3,y3,x1,y1,hx1,hy1);
       closest_point_on_line_from_point(x1,y1,x3,y3,x2,y2,hx2,hy2);
       closest_point_on_line_from_point(x1,y1,x2,y2,x3,y3,hx3,hy3);
+
       return circumcircle(hx1,hy1,hx2,hy2,hx3,hy3);
    }
 
@@ -5923,9 +6015,10 @@ namespace wykobi
          D: bisector intersect point along (x1y1)(x3,y3)
          |(x1y1)(x2-y2)| : |(x2y2)(x3y3)| == |(x1y1)D| : |D(x3y3)|
       */
-      T dist1 = distance(x1,y1,x2,y2);
-      T dist2 = distance(x2,y2,x3,y3);
-      T ratio = dist2 / (dist1 + dist2);
+      const T dist1 = distance(x1,y1,x2,y2);
+      const T dist2 = distance(x2,y2,x3,y3);
+      const T ratio = dist2 / (dist1 + dist2);
+
       return make_line(x2,y2,x3 + ratio * (x1 - x3), y3 + ratio * (y1 - y3));
    }
 
@@ -5934,9 +6027,10 @@ namespace wykobi
                                                     const T& x2, const T& y2,
                                                     const T& x3, const T& y3)
    {
-      T dist1 = distance(x1,y1,x2,y2);
-      T dist2 = distance(x2,y2,x3,y3);
-      T ratio = dist2 / (dist1 + dist2);
+      const T dist1 = distance(x1,y1,x2,y2);
+      const T dist2 = distance(x2,y2,x3,y3);
+      const T ratio = dist2 / (dist1 + dist2);
+
       return make_segment(x2,y2,x3 + ratio * (x1 - x3), y3 + ratio * (y1 - y3));
    }
 
@@ -5955,9 +6049,10 @@ namespace wykobi
                                               const T& x2, const T& y2, const T& z2,
                                               const T& x3, const T& y3, const T& z3)
    {
-      T dist1 = distance(x1,y1,z1,x2,y2,z2);
-      T dist2 = distance(x2,y2,z2,x3,y3,z3);
-      T ratio = dist2 / (dist1 + dist2);
+      const T dist1 = distance(x1,y1,z1,x2,y2,z2);
+      const T dist2 = distance(x2,y2,z2,x3,y3,z3);
+      const T ratio = dist2 / (dist1 + dist2);
+
       return make_line(x2,y2,z2,x3 + ratio * (x1 - x3), y3 + ratio * (y1 - y3), z3 + ratio * (z1 - z3));
    }
 
@@ -5966,9 +6061,10 @@ namespace wykobi
                                                     const T& x2, const T& y2, const T& z2,
                                                     const T& x3, const T& y3, const T& z3)
    {
-      T dist1 = distance(x1,y1,z1,x2,y2,z2);
-      T dist2 = distance(x2,y2,z2,x3,y3,z3);
-      T ratio = dist2 / (dist1 + dist2);
+      const T dist1 = distance(x1,y1,z1,x2,y2,z2);
+      const T dist2 = distance(x2,y2,z2,x3,y3,z3);
+      const T ratio = dist2 / (dist1 + dist2);
+
       return make_segment(x2,y2,z2,x3 + ratio * (x1 - x3), y3 + ratio * (y1 - y3), z3 + ratio * (z1 - z3));
    }
 
@@ -6050,30 +6146,32 @@ namespace wykobi
                                                    const T& px, const T& py,
                                                          T& nx,       T& ny)
    {
-      T vx = x2 - x1;
-      T vy = y2 - y1;
-      T wx = px - x1;
-      T wy = py - y1;
+      const T vx = x2 - x1;
+      const T vy = y2 - y1;
+      const T wx = px - x1;
+      const T wy = py - y1;
 
-      T c1 = vx * wx + vy * wy;
+      const T c1 = vx * wx + vy * wy;
 
       if (c1 <= T(0.0))
       {
          nx = x1;
          ny = y1;
+
          return;
       }
 
-      T c2 = vx * vx + vy * vy;
+      const T c2 = vx * vx + vy * vy;
 
       if (c2 <= c1)
       {
          nx = x2;
          ny = y2;
+
          return;
       }
 
-      T ratio = c1 / c2;
+      const T ratio = c1 / c2;
 
       nx = x1 + ratio * vx;
       ny = y1 + ratio * vy;
@@ -6085,34 +6183,36 @@ namespace wykobi
                                                    const T& px, const T& py, const T& pz,
                                                          T& nx,       T& ny,       T& nz)
    {
-      T vx = x2 - x1;
-      T vy = y2 - y1;
-      T vz = z2 - z1;
-      T wx = px - x1;
-      T wy = py - y1;
-      T wz = pz - z1;
+      const T vx = x2 - x1;
+      const T vy = y2 - y1;
+      const T vz = z2 - z1;
+      const T wx = px - x1;
+      const T wy = py - y1;
+      const T wz = pz - z1;
 
-      T c1 = vx * wx + vy * wy + vz * wz;
+      const T c1 = vx * wx + vy * wy + vz * wz;
 
       if (c1 <= T(0.0))
       {
          nx = x1;
          ny = y1;
          nz = z1;
+
          return;
       }
 
-      T c2 = vx * vx + vy * vy + vz * vz;
+      const T c2 = vx * vx + vy * vy + vz * vz;
 
       if (c2 <= c1)
       {
          nx = x2;
          ny = y2;
          nz = z2;
+
          return;
       }
 
-      T ratio = c1 / c2;
+      const T ratio = c1 / c2;
 
       nx = x1 + ratio * vx;
       ny = y1 + ratio * vy;
@@ -6125,15 +6225,15 @@ namespace wykobi
                                                 const T& px, const T& py,
                                                       T& nx,       T& ny)
    {
-      T vx = x2 - x1;
-      T vy = y2 - y1;
-      T wx = px - x1;
-      T wy = py - y1;
+      const T vx = x2 - x1;
+      const T vy = y2 - y1;
+      const T wx = px - x1;
+      const T wy = py - y1;
 
-      T c1 = vx * wx + vy * wy;
-      T c2 = vx * vx + vy * vy;
+      const T c1 = vx * wx + vy * wy;
+      const T c2 = vx * vx + vy * vy;
 
-      T ratio = c1 / c2;
+      const T ratio = c1 / c2;
 
       nx = x1 + ratio * vx;
       ny = y1 + ratio * vy;
@@ -6145,17 +6245,17 @@ namespace wykobi
                                                 const T& px, const T& py, const T& pz,
                                                       T& nx,       T& ny,       T& nz)
    {
-      T vx = x2 - x1;
-      T vy = y2 - y1;
-      T vz = z2 - z1;
-      T wx = px - x1;
-      T wy = py - y1;
-      T wz = pz - z1;
+      const T vx = x2 - x1;
+      const T vy = y2 - y1;
+      const T vz = z2 - z1;
+      const T wx = px - x1;
+      const T wy = py - y1;
+      const T wz = pz - z1;
 
-      T c1 = vx * wx + vy * wy + vz * wz;
-      T c2 = vx * vx + vy * vy + vz * vz;
+      const T c1 = vx * wx + vy * wy + vz * wz;
+      const T c2 = vx * vx + vy * vy + vz * vz;
 
-      T ratio = c1 / c2;
+      const T ratio = c1 / c2;
 
       nx = x1 + ratio * vx;
       ny = y1 + ratio * vy;
@@ -6258,7 +6358,8 @@ namespace wykobi
                                                const T& px, const T& py,
                                                      T& nx,       T& ny)
    {
-      T t  = dx * (px - ox) + dy * (py - oy);
+      const T t  = dx * (px - ox) + dy * (py - oy);
+
       if (t < T(0.0))
       {
          nx = ox;
@@ -6277,7 +6378,7 @@ namespace wykobi
                                                const T& px, const T& py, const T& pz,
                                                      T& nx,       T& ny,       T& nz)
    {
-      T t  = dx * (px - ox) + dy * (py - oy) + dz * (pz - oz);
+      const T t  = dx * (px - ox) + dy * (py - oy) + dz * (pz - oz);
 
       if (t < T(0.0))
       {
@@ -6425,8 +6526,8 @@ namespace wykobi
                                                     const T& px, const T& py,
                                                           T& nx,       T& ny)
    {
-      int or1 = orientation((x2 + x3) * T(0.5),(y2 + y3) * T(0.5),x1,y1,px,py);
-      int or2 = orientation((x1 + x3) * T(0.5),(y1 + y3) * T(0.5),x2,y2,px,py);
+      const int or1 = orientation((x2 + x3) * T(0.5), (y2 + y3) * T(0.5), x1, y1, px, py);
+      const int or2 = orientation((x1 + x3) * T(0.5), (y1 + y3) * T(0.5), x2, y2, px, py);
 
       if (differing_orientation(x1,y1,x2,y2,px,py,x3,y3) && ((or1 * or2) == -1))
       {
@@ -6434,7 +6535,7 @@ namespace wykobi
          return;
       }
 
-      int or3 = orientation((x1 + x2) * T(0.5),(y1 + y2) * T(0.5),x3,y3,px,py);
+      const int or3 = orientation((x1 + x2) * T(0.5),(y1 + y2) * T(0.5),x3,y3,px,py);
 
       if (differing_orientation(x2,y2,x3,y3,px,py,x1,y1) && ((or2 * or3) == -1))
       {
@@ -6447,6 +6548,7 @@ namespace wykobi
          closest_point_on_segment_from_point(x3,y3,x1,y1,px,py,nx,ny);
          return;
       }
+
       nx = px;
       ny = py;
    }
@@ -6489,7 +6591,9 @@ namespace wykobi
                                                           T& nx,       T& ny,       T& nz)
    {
       point3d<T> point_;
+
       point_ = closest_point_on_triangle_from_point(x1,y1,z1,x2,y2,z2,x3,y3,z3,px,py,pz);
+
       nx = point_.x;
       ny = point_.y;
       nz = point_.z;
@@ -6517,19 +6621,19 @@ namespace wykobi
       vector3d<T> ac = triangle[2] - triangle[0];
       vector3d<T> bc = triangle[2] - triangle[1];
 
-      T snom   = dot_product(point - triangle[0], ab);
-      T sdenom = dot_product(point - triangle[1], triangle[0] - triangle[1]);
+      const T snom   = dot_product(point - triangle[0], ab);
+      const T sdenom = dot_product(point - triangle[1], triangle[0] - triangle[1]);
 
-      T tnom   = dot_product(point - triangle[0], ac);
-      T tdenom = dot_product(point - triangle[2], triangle[0] - triangle[2]);
+      const T tnom   = dot_product(point - triangle[0], ac);
+      const T tdenom = dot_product(point - triangle[2], triangle[0] - triangle[2]);
 
       if (snom <= T(0.0) && tnom <= T(0.0))
       {
          return triangle[0];
       }
 
-      T unom   = dot_product(point - triangle[1], bc);
-      T udenom = dot_product(point - triangle[2], triangle[1] - triangle[2]);
+      const T unom   = dot_product(point - triangle[1], bc);
+      const T udenom = dot_product(point - triangle[2], triangle[1] - triangle[2]);
 
       if ((sdenom <= T(0.0)) && (unom <= T(0.0)))
       {
@@ -6542,30 +6646,31 @@ namespace wykobi
       }
 
       vector3d<T> n = (triangle[1] - triangle[0]) * (triangle[2] - triangle[0]);
-      T vc = dot_product(n, (triangle[0] - point) * (triangle[1] - point));
+
+      const T vc = dot_product(n, (triangle[0] - point) * (triangle[1] - point));
 
       if ((vc <= T(0.0)) && (snom >= T(0.0)) && (sdenom >= T(0.0)))
       {
          return triangle[0] + snom / (snom + sdenom) * ab;
       }
 
-      T va = dot_product(n,(triangle[1] - point) * (triangle[2] - point));
+      const T va = dot_product(n,(triangle[1] - point) * (triangle[2] - point));
 
       if (va <= T(0.0) && unom >= T(0.0) && udenom >= T(0.0))
       {
          return triangle[1] + unom / (unom + udenom) * bc;
       }
 
-      T vb = dot_product(n, (triangle[2] - point) * (triangle[0] - point));
+      const T vb = dot_product(n, (triangle[2] - point) * (triangle[0] - point));
 
       if ((vb <= T(0.0)) && (tnom >= T(0.0)) && (tdenom >= T(0.0)))
       {
          return triangle[0] + tnom / (tnom + tdenom) * ac;
       }
 
-      T u = va / (va + vb + vc);
-      T v = vb / (va + vb + vc);
-      T w = T(1.0) - u - v;
+      const T u = va / (va + vb + vc);
+      const T v = vb / (va + vb + vc);
+      const T w = T(1.0) - u - v;
 
       return (u * triangle[0]) + (v * triangle[1]) + (w * triangle[2]);
    }
@@ -6693,6 +6798,7 @@ namespace wykobi
       T temp_dist;
 
       closest_point_on_segment_from_point(x1,y1,x2,y2,px,py,nx,ny);
+
       T min_dist = distance(nx,ny,px,py);
 
       closest_point_on_segment_from_point(x2,y2,x3,y3,px,py,tx,ty);
@@ -6706,6 +6812,7 @@ namespace wykobi
       }
 
       closest_point_on_segment_from_point(x3,y3,x4,y4,px,py,tx,ty);
+
       temp_dist = distance(tx,ty,px,py);
 
       if (min_dist > temp_dist)
@@ -6716,6 +6823,7 @@ namespace wykobi
       }
 
       closest_point_on_segment_from_point(x4,y4,x1,y1,px,py,tx,ty);
+
       temp_dist = distance(tx,ty,px,py);
 
       if (min_dist > temp_dist)
@@ -6733,7 +6841,9 @@ namespace wykobi
                                                         const T& px, const T& py)
    {
       point2d<T> point;
+
       closest_point_on_quadix_from_point(x1,y1,x2,y2,x3,y3,x4,y4,px,py,point.x,point.y);
+
       return point;
    }
 
@@ -6741,19 +6851,19 @@ namespace wykobi
    inline point2d<T> closest_point_on_quadix_from_point(const quadix<T,2>& quadix,
                                                         const point2d<T>&  point)
    {
-      return closest_point_on_quadix_from_point(quadix[0].x,quadix[0].y,
-                                                quadix[1].x,quadix[1].y,
-                                                quadix[2].x,quadix[2].y,
-                                                quadix[3].x,quadix[3].y,
-                                                    point.x,    point.y);
+      return closest_point_on_quadix_from_point(quadix[0].x, quadix[0].y,
+                                                quadix[1].x, quadix[1].y,
+                                                quadix[2].x, quadix[2].y,
+                                                quadix[3].x, quadix[3].y,
+                                                    point.x,     point.y);
    }
 
    template <typename T>
    inline point2d<T> closest_point_on_circle_from_point(const circle<T>&  circle,
                                                         const point2d<T>& point)
    {
-      T dx     = point.x - circle.x;
-      T dy     = point.y - circle.y;
+      const T dx = point.x - circle.x;
+      const T dy = point.y - circle.y;
 
       if ((sqr(dx) + sqr(dy)) <= sqr(circle.radius))
       {
@@ -6761,9 +6871,12 @@ namespace wykobi
       }
 
       point2d<T> point_;
-      T ratio  = circle.radius / sqrt(dx * dx + dy * dy);
+
+      const T ratio  = circle.radius / sqrt(dx * dx + dy * dy);
+
       point_.x = circle.x + ratio * dx;
       point_.y = circle.y + ratio * dy;
+
       return point_;
    }
 
@@ -6772,13 +6885,16 @@ namespace wykobi
                                                         const point3d<T>& point)
    {
       point3d<T> point_;
-      T dx     = point.x - sphere.x;
-      T dy     = point.y - sphere.y;
-      T dz     = point.z - sphere.z;
-      T ratio  = sphere.radius / sqrt(dx * dx + dy * dy);
+
+      const T dx    = point.x - sphere.x;
+      const T dy    = point.y - sphere.y;
+      const T dz    = point.z - sphere.z;
+      const T ratio = sphere.radius / sqrt(dx * dx + dy * dy);
+
       point_.x = sphere.x + ratio * dx;
       point_.y = sphere.y + ratio * dy;
       point_.z = sphere.z + ratio * dz;
+
       return point_;
    }
 
@@ -6793,13 +6909,18 @@ namespace wykobi
    inline point2d<T> closest_point_on_circle_from_segment(const circle<T>&    circle,
                                                           const segment<T,2>& segment)
    {
-      T nx;
-      T ny;
+      T nx = T(0.0);
+      T ny = T(0.0);
+
       point2d<T> point;
+
       closest_point_on_segment_from_point(segment[0].x,segment[0].y,segment[1].x,segment[1].y,circle.x,circle.y,nx,ny);
-      T ratio = circle.radius / distance(circle.x,circle.y,nx,ny);
+
+      const T ratio = circle.radius / distance(circle.x,circle.y,nx,ny);
+
       point.x = circle.x + ratio * (nx - circle.x);
       point.y = circle.y + ratio * (ny - circle.y);
+
       return point;
    }
 
@@ -6813,12 +6934,12 @@ namespace wykobi
 
       point3d<T> point;
 
-      closest_point_on_segment_from_point(segment[0].x,segment[0].y,segment[0].z,
-                                          segment[1].x,segment[1].y,segment[1].z,
-                                              sphere.x,    sphere.y,    sphere.z,
-                                                    nx,          ny,          nz);
+      closest_point_on_segment_from_point(segment[0].x, segment[0].y, segment[0].z,
+                                          segment[1].x, segment[1].y, segment[1].z,
+                                              sphere.x,     sphere.y,     sphere.z,
+                                                    nx,           ny,           nz);
 
-      T ratio = sphere.radius / distance(sphere.x,sphere.y,nx,ny);
+      const T ratio = sphere.radius / distance(sphere.x,sphere.y,nx,ny);
 
       point.x = sphere.x + ratio * (nx - sphere.x);
       point.y = sphere.y + ratio * (ny - sphere.y);
@@ -6831,9 +6952,9 @@ namespace wykobi
    inline point3d<T> closest_point_on_plane_from_point(const plane<T,3>& plane,
                                                        const point3d<T>& point)
    {
-      T mu = plane.normal.x * point.x +
-             plane.normal.y * point.y +
-             plane.normal.z * point.z  - plane.constant;
+      const T mu = plane.normal.x * point.x +
+                   plane.normal.y * point.y +
+                   plane.normal.z * point.z  - plane.constant;
 
       if (is_equal(mu,T(0.0)))
          return point;
@@ -6849,17 +6970,21 @@ namespace wykobi
                                                         const std::size_t& steps)
    {
       typedef point2d<T> point_type;
+
       T smallest_distance = +infinity<T>();
+
       point_type closest_point = degenerate_point2d<T>();
+
       std::vector<point_type> point_list;
       point_list.reserve(steps);
+
       wykobi::generate_bezier(bezier,std::back_inserter(point_list),steps);
 
       for (std::size_t i = 0; i < (point_list.size() - 1); ++i)
       {
          point_type current_point = closest_point_on_segment_from_point(make_segment(point_list[i],point_list[i+1]),point);
 
-         T current_distance = distance(current_point,point);
+         const T current_distance = distance(current_point,point);
 
          if (current_distance < smallest_distance)
          {
@@ -6877,8 +7002,11 @@ namespace wykobi
                                                         const std::size_t& steps)
    {
       typedef point2d<T> point_type;
+
       T smallest_distance = +infinity<T>();
+
       point_type closest_point = degenerate_point2d<T>();
+
       std::vector<point_type> point_list;
       point_list.reserve(steps);
 
@@ -6887,7 +7015,8 @@ namespace wykobi
       for (std::size_t i = 0; i < (point_list.size() - 1); ++i)
       {
          point_type current_point = closest_point_on_segment_from_point(make_segment(point_list[i],point_list[i+1]),point);
-         T current_distance = distance(current_point,point);
+
+         const T current_distance = distance(current_point,point);
 
          if (current_distance < smallest_distance)
          {
@@ -6905,8 +7034,11 @@ namespace wykobi
                                                         const std::size_t& steps)
    {
       typedef point3d<T> point_type;
+
       T smallest_distance = +infinity<T>();
+
       point_type closest_point = degenerate_point3d<T>();
+
       std::vector<point_type> point_list;
       point_list.reserve(steps);
 
@@ -6916,7 +7048,7 @@ namespace wykobi
       {
          point_type current_point = closest_point_on_segment_from_point(make_segment(point_list[i],point_list[i+1]),point);
 
-         T current_distance = distance(current_point,point);
+         const T current_distance = distance(current_point,point);
 
          if (current_distance < smallest_distance)
          {
@@ -7172,9 +7304,9 @@ namespace wykobi
    template <typename T>
    inline void segment_mid_point(const segment<T,3>& segment, T& midx, T& midy, T& midz)
    {
-      segment_mid_point(segment[0].x,segment[0].y,segment[0].z,
-                        segment[1].x,segment[1].y,segment[1].z,
-                                midx,        midy,        midz);
+      segment_mid_point(segment[0].x, segment[0].y, segment[0].z,
+                        segment[1].x, segment[1].y, segment[1].z,
+                                midx,         midy,         midz);
    }
 
    template <typename T>
@@ -7182,9 +7314,9 @@ namespace wykobi
    {
       point3d<T> point_;
 
-      segment_mid_point(point1.x,point1.y,point1.z,
-                        point2.x,point2.y,point2.z,
-                        point_.x,point_.y,point_.z);
+      segment_mid_point(point1.x, point1.y, point1.z,
+                        point2.x, point2.y, point2.z,
+                        point_.x, point_.y, point_.z);
 
       return point_;
    }
@@ -7228,8 +7360,10 @@ namespace wykobi
       T midy1 = T(0.0);
       T midx2 = T(0.0);
       T midy2 = T(0.0);
+
       segment_mid_point(x2,y2,x3,y3,midx1,midy1);
       segment_mid_point(x1,y1,x3,y3,midx2,midy2);
+
       intersect(x1,y1,midx1,midy1,x2,y2,midx2,midy2,x,y);
    }
 
@@ -7245,8 +7379,10 @@ namespace wykobi
       T midx2 = T(0.0);
       T midy2 = T(0.0);
       T midz2 = T(0.0);
+
       segment_mid_point(x2,y2,z2,x3,y3,z3,midx1,midy1,midz1);
       segment_mid_point(x1,y1,z1,x3,y3,z3,midx2,midy2,midz2);
+
       intersection_point(x1,y1,z1,midx1,midy1,midz1,x2,y2,z2,midx2,midy2,midz2,x,y,z);
    }
 
@@ -7365,10 +7501,12 @@ namespace wykobi
    inline point2d<T> centroid(const point2d<T>& point1, const point2d<T>& point2, const point2d<T>& point3)
    {
       point2d<T> point_;
+
       centroid(point1.x,point1.y,
                point2.x,point2.y,
                point3.x,point3.y,
                point_.x,point_.y);
+
       return point_;
    }
 
@@ -7395,11 +7533,13 @@ namespace wykobi
                               const point2d<T>& point4)
    {
       point2d<T> point_;
+
       centroid(point1.x,point1.y,
                point2.x,point2.y,
                point3.x,point3.y,
                point4.x,point4.y,
                point_.x,point_.y);
+
       return point_;
    }
 
@@ -7423,6 +7563,7 @@ namespace wykobi
    inline bool point_in_convex_polygon(const T& px, const T& py, const polygon<T,2>& polygon)
    {
       if (polygon.size() < 3) return false;
+
       int initial_orientation = orientation(polygon[0],polygon[static_cast<int>(polygon.size()) - 1],px,py);
       std::size_t j = 0;
 
@@ -7495,6 +7636,7 @@ namespace wykobi
 
          j = i;
       }
+
       return result;
    }
 
@@ -7532,6 +7674,7 @@ namespace wykobi
                winding_number--;
             }
          }
+
          j = i;
       }
 
@@ -7547,10 +7690,12 @@ namespace wykobi
    template <typename T>
    inline bool convex_quadix(const quadix<T,2>& quadix)
    {
-      int orin = orientation(quadix[0],quadix[2],quadix[1]);
+      const int orin = orientation(quadix[0],quadix[2],quadix[1]);
+
       if (orin != orientation(quadix[1],quadix[3],quadix[2])) return false;
       if (orin != orientation(quadix[2],quadix[0],quadix[3])) return false;
       if (orin != orientation(quadix[3],quadix[1],quadix[0])) return false;
+
       return true;
    }
 
@@ -7735,6 +7880,7 @@ namespace wykobi
             }
          }
       }
+
       return true;
    }
 
@@ -7764,6 +7910,7 @@ namespace wykobi
       }
 
       T area = T(0.0);
+
       std::size_t prev_index = polygon.size() - 1;
 
       for (std::size_t index = 0; index < polygon.size(); ++index)
@@ -7803,52 +7950,58 @@ namespace wykobi
    template <typename T>
    inline bool is_equilateral_triangle(const triangle<T,2>& triangle)
    {
-      T dist = distance(triangle[0],triangle[1]);
-      return is_equal(distance(triangle[1],triangle[2]),dist) &&
-             is_equal(distance(triangle[0],triangle[2]),dist);
+      const T dist = distance(triangle[0],triangle[1]);
+
+      return is_equal(distance(triangle[1], triangle[2]), dist) &&
+             is_equal(distance(triangle[0], triangle[2]), dist);
    }
 
    template <typename T>
    inline bool is_equilateral_triangle(const triangle<T,3>& triangle)
    {
-      T dist = distance(triangle[0],triangle[1]);
-      return is_equal(distance(triangle[1],triangle[2]),dist) &&
-             is_equal(distance(triangle[0],triangle[2]),dist);
+      const T dist = distance(triangle[0],triangle[1]);
+
+      return is_equal(distance(triangle[1], triangle[2]), dist) &&
+             is_equal(distance(triangle[0], triangle[2]), dist);
    }
 
    template <typename T>
    inline bool is_isosceles_triangle(const triangle<T,2>& triangle)
    {
-      T dist1 = lay_distance(triangle[0],triangle[1]);
-      T dist2 = lay_distance(triangle[1],triangle[2]);
-      T dist3 = lay_distance(triangle[2],triangle[0]);
+      const T dist1 = lay_distance(triangle[0],triangle[1]);
+      const T dist2 = lay_distance(triangle[1],triangle[2]);
+      const T dist3 = lay_distance(triangle[2],triangle[0]);
+
       return is_equal(dist1,dist2) || is_equal(dist1,dist3) || is_equal(dist2,dist3);
    }
 
    template <typename T>
    inline bool is_isosceles_triangle(const triangle<T,3>& triangle)
    {
-      T dist1 = lay_distance(triangle[0],triangle[1]);
-      T dist2 = lay_distance(triangle[1],triangle[2]);
-      T dist3 = lay_distance(triangle[2],triangle[0]);
+      const T dist1 = lay_distance(triangle[0],triangle[1]);
+      const T dist2 = lay_distance(triangle[1],triangle[2]);
+      const T dist3 = lay_distance(triangle[2],triangle[0]);
+
       return is_equal(dist1,dist2) || is_equal(dist1,dist3) || is_equal(dist2,dist3);
    }
 
    template <typename T>
    inline bool is_right_triangle(const wykobi::triangle<T,2>& triangle)
    {
-      T a = wykobi::lay_distance(wykobi::edge(triangle,0));
-      T b = wykobi::lay_distance(wykobi::edge(triangle,1));
-      T c = wykobi::lay_distance(wykobi::edge(triangle,2));
+      const T a = wykobi::lay_distance(wykobi::edge(triangle,0));
+      const T b = wykobi::lay_distance(wykobi::edge(triangle,1));
+      const T c = wykobi::lay_distance(wykobi::edge(triangle,2));
+
       return wykobi::is_equal(a + b,c) || wykobi::is_equal(a + c,b) || wykobi::is_equal(b + c,a);
    }
 
    template <typename T>
    inline bool is_right_triangle(const wykobi::triangle<T,3>& triangle)
    {
-      T a = wykobi::lay_distance(wykobi::edge(triangle,0));
-      T b = wykobi::lay_distance(wykobi::edge(triangle,1));
-      T c = wykobi::lay_distance(wykobi::edge(triangle,2));
+      const T a = wykobi::lay_distance(wykobi::edge(triangle,0));
+      const T b = wykobi::lay_distance(wykobi::edge(triangle,1));
+      const T c = wykobi::lay_distance(wykobi::edge(triangle,2));
+
       return wykobi::is_equal(a + b,c) || wykobi::is_equal(a + c,b) || wykobi::is_equal(b + c,a);
    }
 
@@ -7943,6 +8096,7 @@ namespace wykobi
                             T& nx,       T& ny)
    {
       closest_point_on_line_from_point(x1,y1,x2,y2,px,py,nx,ny);
+
       nx = px + T(2.0) * (nx - px);
       ny = py + T(2.0) * (ny - py);
    }
@@ -7954,6 +8108,7 @@ namespace wykobi
                             T& nx,       T& ny,       T& nz)
    {
       closest_point_on_line_from_point(x1,y1,z1,x2,y2,z2,px,py,pz,nx,ny,nz);
+
       nx = px + T(2.0) * (nx - px);
       ny = py + T(2.0) * (ny - py);
       nz = pz + T(2.0) * (nz - pz);
@@ -7963,10 +8118,12 @@ namespace wykobi
    inline point2d<T> mirror(const point2d<T>& point, const line<T,2>& mirror_axis)
    {
       wykobi::point2d<T> point_;
+
       mirror(point.x,          point.y,
              mirror_axis[0].x, mirror_axis[0].y,
              mirror_axis[1].x, mirror_axis[1].y,
              point_.x,         point_.y);
+
       return point_;
    }
 
@@ -8039,10 +8196,12 @@ namespace wykobi
    inline circle<T> mirror(const circle<T>& circle, const line<T,2>& mirror_axis)
    {
       wykobi::circle<T> circle_ = circle;
+
       mirror(circle.x,        circle.y,
              mirror_axis[0].x,mirror_axis[0].y,
              mirror_axis[1].x,mirror_axis[1].y,
              circle_.x,       circle_.y);
+
       return circle_;
    }
 
@@ -8050,6 +8209,7 @@ namespace wykobi
    inline polygon<T,2> mirror(const polygon<T,2>& polygon, const line<T,2>& mirror_axis)
    {
       wykobi::polygon<T,2> polygon_;
+
       polygon_.reserve(polygon.size());
 
       for (std::size_t i = 0; i < polygon.size(); ++i)
@@ -8064,10 +8224,12 @@ namespace wykobi
    inline point3d<T> mirror(const point3d<T>& point, const line<T,3>& mirror_axis)
    {
       wykobi::point3d<T> point_;
+
       mirror(point.x,          point.y,
              mirror_axis[0].x, mirror_axis[0].y,
              mirror_axis[1].x, mirror_axis[1].y,
              point_.x,         point_.y);
+
       return point_;
    }
 
@@ -8141,10 +8303,10 @@ namespace wykobi
    {
       wykobi::sphere<T> sphere_ = sphere;
 
-      mirror(sphere.x,        sphere.y,        sphere.z,
-             mirror_axis[0].x,mirror_axis[0].y,mirror_axis[0].z,
-             mirror_axis[1].x,mirror_axis[1].y,mirror_axis[1].z,
-             sphere_.x,       sphere_.y,       sphere_.z);
+      mirror(sphere.x,         sphere.y,         sphere.z,
+             mirror_axis[0].x, mirror_axis[0].y, mirror_axis[0].z,
+             mirror_axis[1].x, mirror_axis[1].y, mirror_axis[1].z,
+             sphere_.x,        sphere_.y,        sphere_.z);
 
       return sphere_;
    }
@@ -8245,6 +8407,7 @@ namespace wykobi
    inline polygon<T,3> mirror(const polygon<T,3>& polygon, const plane<T,3>& plane)
    {
       wykobi::polygon<T,3> polygon_;
+
       polygon_.reserve(polygon.size());
 
       for (std::size_t i = 0; i < polygon.size(); ++i)
@@ -8263,7 +8426,9 @@ namespace wykobi
                                          T& nx,       T& ny)
    {
       closest_point_on_line_from_point(x1,y1,x2,y2,px,py,nx,ny);
-      T general_ratio = T(2.0) * ratio;
+
+      const T general_ratio = T(2.0) * ratio;
+
       nx = px + general_ratio * (nx - px);
       ny = py + general_ratio * (ny - py);
    }
@@ -8272,7 +8437,9 @@ namespace wykobi
    inline point2d<T> nonsymmetric_mirror(const point2d<T>& point, const T& ratio, const line<T,2>& line)
    {
       wykobi::point2d<T> point_;
+
       nonsymmetric_mirror(point.x,point.y,line[0].x,line[0].y,ratio,line[1].x,line[1].y,point_.x,point_.y);
+
       return point_;
    }
 
@@ -8460,6 +8627,7 @@ namespace wykobi
    {
       T dx = (x1 - x2);
       T dy = (y1 - y2);
+
       return sqrt(dx * dx + dy * dy);
    }
 
@@ -8469,6 +8637,7 @@ namespace wykobi
       T dx = (x1 - x2);
       T dy = (y1 - y2);
       T dz = (z1 - z2);
+
       return sqrt(dx * dx + dy * dy + dz * dz);
    }
 
@@ -8608,7 +8777,7 @@ namespace wykobi
    inline T distance(const segment<T,2>& segment, const rectangle<T>& rectangle)
    {
       return min(min(distance(segment,edge(rectangle,0)),distance(segment,edge(rectangle,1))),
-                      min(distance(segment,edge(rectangle,2)),distance(segment,edge(rectangle,3))));
+                 min(distance(segment,edge(rectangle,2)),distance(segment,edge(rectangle,3))));
    }
 
    template <typename T>
@@ -8632,6 +8801,7 @@ namespace wykobi
                        min(minimum_distance_from_point_to_triangle(triangle1[i],triangle2),
                            minimum_distance_from_point_to_triangle(triangle2[i],triangle1)));
       }
+
       return min_dist;
    }
 
@@ -8680,6 +8850,7 @@ namespace wykobi
       {
          point2d<T> point1 = closest_point_on_triangle_from_point(triangle,circle.x,circle.y);
          point2d<T> point2 = closest_point_on_circle_from_point(circle,point1);
+
          return distance(point1,point2);
       }
    }
@@ -8693,6 +8864,7 @@ namespace wykobi
       {
          point2d<T> point1 = closest_point_on_rectangle_from_point(rectangle,circle.x,circle.y);
          point2d<T> point2 = closest_point_on_circle_from_point(circle,point1);
+
          return distance(point1,point2);
       }
    }
@@ -8709,7 +8881,8 @@ namespace wykobi
    template <typename T>
    inline T distance(const circle<T>& circle1, const circle<T>& circle2)
    {
-      T dist = distance(circle1.x,circle1.y,circle2.x,circle2.y);
+      const T dist = distance(circle1.x, circle1.y, circle2.x, circle2.y);
+
       if (dist > (circle1.radius + circle2.radius))
          return (dist - (circle1.radius + circle2.radius));
       else
@@ -8719,7 +8892,12 @@ namespace wykobi
    template <typename T>
    inline T distance(const sphere<T>& sphere1, const sphere<T>& sphere2)
    {
-      T dist = distance(sphere1.x,sphere1.y,sphere1.z,sphere2.x,sphere2.y,sphere2.z);
+      const T dist = distance
+                     (
+                       sphere1.x, sphere1.y, sphere1.z,
+                       sphere2.x, sphere2.y, sphere2.z
+                     );
+
       if (dist > (sphere1.radius + sphere2.radius))
          return (dist - (sphere1.radius + sphere2.radius));
       else
@@ -8731,6 +8909,7 @@ namespace wykobi
    {
       T dx = (x2 - x1);
       T dy = (y2 - y1);
+
       return dx * dx + dy * dy;
    }
 
@@ -8740,6 +8919,7 @@ namespace wykobi
       T dx = (x2 - x1);
       T dy = (y2 - y1);
       T dz = (z2 - z1);
+
       return dx * dx + dy * dy + dz * dz;
    }
 
@@ -9441,6 +9621,7 @@ namespace wykobi
       {
          sn = (b * e - c * d);
          tn = (a * e - b * d);
+
          if (sn < T(0.0))
          {
             sn = T(0.0);
@@ -9458,6 +9639,7 @@ namespace wykobi
       if (tn < T(0.0))
       {
          tn = T(0.0);
+
          if (-d < T(0.0))
             sn = T(0.0);
          else if (-d > a)
@@ -9471,6 +9653,7 @@ namespace wykobi
       else if (tn > td)
       {
          tn = td;
+
          if ((-d + b) < T(0.0))
             sn = T(0.0);
          else if ((-d + b) > a)
@@ -9494,6 +9677,7 @@ namespace wykobi
 
       T dx = wx + (sc * ux) - (tc * vx);
       T dy = wy + (sc * uy) - (tc * vy);
+
       return dx * dx + dy * dy;
    }
 
@@ -9540,6 +9724,7 @@ namespace wykobi
       {
          sn = (b * e - c * d);
          tn = (a * e - b * d);
+
          if (sn < T(0.0))
          {
             sn = T(0.0);
@@ -9557,6 +9742,7 @@ namespace wykobi
       if (tn < T(0.0))
       {
          tn = T(0.0);
+
          if (-d < T(0.0))
             sn = T(0.0);
          else if (-d > a)
@@ -9570,6 +9756,7 @@ namespace wykobi
       else if (tn > td)
       {
          tn = td;
+
          if ((-d + b) < T(0.0))
             sn = T(0.0);
          else if ((-d + b) > a)
@@ -9597,6 +9784,7 @@ namespace wykobi
       T dx = wx + (sc * ux) - (tc * vx);
       T dy = wy + (sc * uy) - (tc * vy);
       T dz = wz + (sc * uz) - (tc * vz);
+
       return dx * dx + dy * dy + dz * dz;
    }
 
@@ -9615,10 +9803,8 @@ namespace wykobi
                                   const T& x3, const T& y3, const T& z3,
                                   const T& x4, const T& y4, const T& z4)
    {
-      return sqrt(lay_distance_line_to_line(x1,y1,z1,
-                                                 x2,y2,z2,
-                                                 x3,y3,z3,
-                                                 x4,y4,z4));
+      return sqrt(lay_distance_line_to_line(x1, y1, z1, x2, y2, z2,
+                                            x3, y3, z3, x4, y4, z4));
    }
 
    template <typename T>
@@ -13002,13 +13188,14 @@ namespace wykobi
    {
       vector2d<T> d = point - make_point(circle.x,circle.y);
 
-      T dist2 = dot_product(d,d);
+      const T dist2 = dot_product(d,d);
 
       if (dist2 > sqr(circle.radius))
       {
-         T dist       = sqrt(dist2);
-         T new_radius = (circle.radius + dist) * T(0.5);
-         T ratio      = (new_radius - circle.radius) / dist;
+         const T dist       = sqrt(dist2);
+         const T new_radius = (circle.radius + dist) * T(0.5);
+         const T ratio      = (new_radius - circle.radius) / dist;
+
          return make_circle(circle.x + (d.x * ratio),
                             circle.y + (d.y * ratio),
                             new_radius);
@@ -13022,13 +13209,14 @@ namespace wykobi
    {
       vector3d<T> d = point - make_point(sphere.x,sphere.y,sphere.z);
 
-      T dist2 = dot_product(d,d);
+      const T dist2 = dot_product(d,d);
 
       if (dist2 > sqr(sphere.radius))
       {
-         T dist       = sqrt(dist2);
-         T new_radius = (sphere.radius + dist) * T(0.5);
-         T ratio      = (new_radius - sphere.radius) / dist;
+         const T dist       = sqrt(dist2);
+         const T new_radius = (sphere.radius + dist) * T(0.5);
+         const T ratio      = (new_radius - sphere.radius) / dist;
+
          return make_sphere(sphere.x + (d.x * ratio),
                             sphere.y + (d.y * ratio),
                             sphere.z + (d.z * ratio),
@@ -13110,7 +13298,7 @@ namespace wykobi
    template <typename T>
    inline point2d<T> generate_random_point(const segment<T,2>& segment)
    {
-      T t = generate_random_value(T(1.0));
+      const T t = generate_random_value(T(1.0));
 
       return make_point(((1 - t) * segment[0].x) + (t * segment[1].x),
                         ((1 - t) * segment[0].y) + (t * segment[1].y));
@@ -13119,7 +13307,7 @@ namespace wykobi
    template <typename T>
    inline point3d<T> generate_random_point(const segment<T,3>& segment)
    {
-      T t = generate_random_value(T(1.0));
+      const T t = generate_random_value(T(1.0));
 
       return make_point(((1 - t) * segment[0].x) + (t * segment[1].x),
                         ((1 - t) * segment[0].y) + (t * segment[1].y),
@@ -13138,7 +13326,7 @@ namespace wykobi
          b = 1 - b;
       }
 
-      T c = (1 - a - b);
+      const T c = (1 - a - b);
 
       return make_point((triangle[0].x * a) + (triangle[1].x * b) + (triangle[2].x * c),
                         (triangle[0].y * a) + (triangle[1].y * b) + (triangle[2].y * c));
@@ -13156,7 +13344,7 @@ namespace wykobi
          b = 1 - b;
       }
 
-      T c = (1 - a - b);
+      const T c = (1 - a - b);
 
       return make_point((triangle[0].x * a) + (triangle[1].x * b) + (triangle[2].x * c),
                         (triangle[0].y * a) + (triangle[1].y * b) + (triangle[2].y * c),
@@ -13166,19 +13354,19 @@ namespace wykobi
    template <typename T>
    inline point2d<T> generate_random_point(const quadix<T,2>& quadix)
    {
-      T a = (2 * generate_random_value(T(1.0))) - 1;
-      T b = (2 * generate_random_value(T(1.0))) - 1;
+      const T a = (2 * generate_random_value(T(1.0))) - 1;
+      const T b = (2 * generate_random_value(T(1.0))) - 1;
 
-      T a1 = T(1.0) - a;
-      T a2 = T(1.0) + a;
+      const T a1 = T(1.0) - a;
+      const T a2 = T(1.0) + a;
 
-      T b1 = T(1.0) - b;
-      T b2 = T(1.0) + b;
+      const T b1 = T(1.0) - b;
+      const T b2 = T(1.0) + b;
 
-      T r1 = a1 * b1;
-      T r2 = a2 * b1;
-      T r3 = a2 * b2;
-      T r4 = a1 * b2;
+      const T r1 = a1 * b1;
+      const T r2 = a2 * b1;
+      const T r3 = a2 * b2;
+      const T r4 = a1 * b2;
 
       return make_point(((r1 * quadix[0].x) + (r2 * quadix[1].x) + (r3 * quadix[2].x) + (r4 * quadix[3].x)) * T(0.25),
                         ((r1 * quadix[0].y) + (r2 * quadix[1].y) + (r3 * quadix[2].y) + (r4 * quadix[3].y)) * T(0.25));
@@ -13187,19 +13375,19 @@ namespace wykobi
    template <typename T>
    inline point3d<T> generate_random_point(const quadix<T,3>& quadix)
    {
-      T a = (2 * generate_random_value(T(1.0))) - 1;
-      T b = (2 * generate_random_value(T(1.0))) - 1;
+      const T a = (2 * generate_random_value(T(1.0))) - 1;
+      const T b = (2 * generate_random_value(T(1.0))) - 1;
 
-      T a1 = T(1.0) - a;
-      T a2 = T(1.0) + a;
+      const T a1 = T(1.0) - a;
+      const T a2 = T(1.0) + a;
 
-      T b1 = T(1.0) - b;
-      T b2 = T(1.0) + b;
+      const T b1 = T(1.0) - b;
+      const T b2 = T(1.0) + b;
 
-      T r1 = a1 * b1;
-      T r2 = a2 * b1;
-      T r3 = a2 * b2;
-      T r4 = a1 * b2;
+      const T r1 = a1 * b1;
+      const T r2 = a2 * b1;
+      const T r3 = a2 * b2;
+      const T r4 = a1 * b2;
 
       return make_point(((r1 * quadix[0].x) + (r2 * quadix[1].x) + (r3 * quadix[2].x) + (r4 * quadix[3].x)) * T(0.25),
                         ((r1 * quadix[0].y) + (r2 * quadix[1].y) + (r3 * quadix[2].y) + (r4 * quadix[3].y)) * T(0.25),
@@ -13229,8 +13417,8 @@ namespace wykobi
                                       const std::size_t& point_count,
                                       OutputIterator out)
    {
-      T dx = abs(x2 - x1);
-      T dy = abs(y2 - y1);
+      const T dx = abs(x2 - x1);
+      const T dy = abs(y2 - y1);
 
       for (std::size_t i = 0; i < point_count; ++i)
       {
@@ -13347,8 +13535,8 @@ namespace wykobi
    template <typename T>
    inline void generate_random_object(const T& x1, const T& y1, const T& x2, const T& y2, segment<T,2>& segment)
    {
-      T dx = abs(x2 - x1);
-      T dy = abs(y2 - y1);
+      const T dx = abs(x2 - x1);
+      const T dy = abs(y2 - y1);
 
       do
       {
@@ -13364,8 +13552,8 @@ namespace wykobi
    template <typename T>
    inline void generate_random_object(const T& x1, const T& y1, const T& x2, const T& y2, rectangle<T>& rectangle)
    {
-      T dx = abs(x2 - x1);
-      T dy = abs(y2 - y1);
+      const T dx = abs(x2 - x1);
+      const T dy = abs(y2 - y1);
 
       do
       {
@@ -13395,8 +13583,8 @@ namespace wykobi
    template <typename T>
    inline void generate_random_object(const T& x1, const T& y1, const T& x2, const T& y2, triangle<T,2>& triangle)
    {
-      T dx = abs(x2 - x1);
-      T dy = abs(y2 - y1);
+      const T dx = abs(x2 - x1);
+      const T dy = abs(y2 - y1);
 
       do
       {
@@ -13412,8 +13600,8 @@ namespace wykobi
    template <typename T>
    inline void generate_random_object(const T& x1, const T& y1, const T& x2, const T& y2, quadix<T,2>& quadix)
    {
-      T dx = abs(x2 - x1);
-      T dy = abs(y2 - y1);
+      const T dx = abs(x2 - x1);
+      const T dy = abs(y2 - y1);
 
       do
       {
@@ -13429,8 +13617,8 @@ namespace wykobi
    template <typename T>
    inline void generate_random_object(const T& x1, const T& y1, const T& x2, const T& y2, circle<T>& circle)
    {
-      T dx = abs(x2 - x1);
-      T dy = abs(y2 - y1);
+      const T dx = abs(x2 - x1);
+      const T dy = abs(y2 - y1);
 
       circle.radius = generate_random_value(min(dx,dy) * T(0.5));
       circle.x      = x1 + circle.radius + generate_random_value(dx - (T(2.0) * circle.radius));
@@ -14556,10 +14744,13 @@ namespace wykobi
    inline rectangle<T> make_rectangle(const T& x1, const T& y1, const T& x2, const T& y2)
    {
       rectangle<T> rectangle_;
+
       rectangle_[0] = make_point(x1,y1);
       rectangle_[1] = make_point(x2,y2);
+
       if (rectangle_[1].x < rectangle_[0].x) std::swap(rectangle_[0].x,rectangle_[1].x);
       if (rectangle_[1].y < rectangle_[0].y) std::swap(rectangle_[0].y,rectangle_[1].y);
+
       return rectangle_;
    }
 
@@ -14730,10 +14921,12 @@ namespace wykobi
    inline sphere<T> make_sphere(const T& x, const T& y, const T& z, const T& radius)
    {
       sphere<T> sphere_;
+
       sphere_.x      = x;
       sphere_.y      = y;
       sphere_.z      = z;
       sphere_.radius = radius;
+
       return sphere_;
    }
 
@@ -14758,10 +14951,13 @@ namespace wykobi
                                 const T& x3, const T& y3, const T& z3)
    {
       plane<T,3> plane_;
+
       vector3d<T> v1 = make_vector(x2 - x1, y2 - y1, z2 - z1);
       vector3d<T> v2 = make_vector(x3 - x1, y3 - y1, z3 - z1);
+
       plane_.normal   = normalize(v1 * v2);
       plane_.constant = -dot_product(plane_.normal,make_vector(x1,y1,z1));
+
       return plane_;
    }
 
@@ -14786,8 +14982,11 @@ namespace wykobi
    {
       wykobi::polygon<T,D> polygon_;
       polygon_.reserve(std::distance(begin,end));
+
       InputIterator it = begin;
+
       while (end != it) { polygon_.push_back((*it++)); }
+
       return polygon_;
    }
 
