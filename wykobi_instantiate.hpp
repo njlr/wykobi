@@ -409,6 +409,7 @@ namespace wykobi
       template triangle<T,3> create_excentral_triangle<T>(const triangle<T,3>& triangle);\
       template triangle<T,2> create_incentral_triangle<T>(const triangle<T,2>& triangle);\
       template triangle<T,3> create_incentral_triangle<T>(const triangle<T,3>& triangle);\
+      template triangle<T,2> create_intouch_triangle<T>(const triangle<T,2>& triangle);\
       template triangle<T,2> create_extouch_triangle<T>(const triangle<T,2>& triangle);\
       template triangle<T,3> create_extouch_triangle<T>(const triangle<T,3>& triangle);\
       template triangle<T,2> create_feuerbach_triangle<T>(const triangle<T,2>& triangle);\

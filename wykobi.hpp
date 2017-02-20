@@ -2148,6 +2148,8 @@ namespace wykobi
    template <typename T> inline triangle<T,2> create_incentral_triangle(const triangle<T,2>& triangle);
    template <typename T> inline triangle<T,3> create_incentral_triangle(const triangle<T,3>& triangle);
 
+   template <typename T> inline triangle<T,2> create_intouch_triangle(const triangle<T,2>& triangle);
+
    template <typename T> inline triangle<T,2> create_extouch_triangle(const triangle<T,2>& triangle);
    template <typename T> inline triangle<T,3> create_extouch_triangle(const triangle<T,3>& triangle);
 

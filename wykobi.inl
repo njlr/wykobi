@@ -5170,6 +5170,19 @@ namespace wykobi
    }
 
    template <typename T>
+   inline triangle<T,2> create_intouch_triangle(const triangle<T,2>& triangle)
+   {
+      const point2d<T> p = make_point(wykobi::inscribed_circle(triangle));
+
+      return make_triangle
+             (
+               closest_point_on_segment_from_point(opposing_edge(triangle,0), p),
+               closest_point_on_segment_from_point(opposing_edge(triangle,1), p),
+               closest_point_on_segment_from_point(opposing_edge(triangle,2), p)
+             );
+   }
+
+   template <typename T>
    inline triangle<T,2> create_extouch_triangle(const triangle<T,2>& triangle)
    {
       wykobi::triangle<T,2> triangle_ = create_excentral_triangle(triangle);
