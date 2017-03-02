@@ -5441,6 +5441,56 @@ namespace wykobi
    }
 
    template <typename T>
+   inline bool trilateration(const T& c0x, const T& c0y, const T& c0r,
+                             const T& c1x, const T& c1y, const T& c1r,
+                             const T& c2x, const T& c2y, const T& c2r,
+                                   T&  px,       T&  py)
+   {
+
+      if (
+           (lay_distance(c0x, c0y, c1x, c1y) > sqr(c0r + c1r)) ||
+           (lay_distance(c0x, c0y, c2x, c2y) > sqr(c0r + c2r)) ||
+           (lay_distance(c1x, c1y, c2x, c2y) > sqr(c1r + c2r))
+         )
+         return false;
+
+      const T eqn0 = T(2.0) * (c1x - c0x);
+      const T eqn1 = T(2.0) * (c1y - c0y);
+      const T eqn2 = sqr(c0r) - sqr(c1r) - sqr(c0x) + sqr(c1x) - sqr(c0y) + sqr(c1y);
+      const T eqn3 = T(2.0) * (c2x - c1x);
+      const T eqn4 = T(2.0) * (c2y - c1y);
+      const T eqn5 = sqr(c1r) - sqr(c2r) - sqr(c1x) + sqr(c2x) - sqr(c1y) + sqr(c2y);
+
+      const T denom = (eqn0 * eqn4) - (eqn1 * eqn3);
+
+      if (is_equal(denom,T(0.0)))
+      {
+         return false;
+      }
+
+      px = ((eqn2 * eqn4) - (eqn5 * eqn1)) / denom;
+      py = ((eqn0 * eqn5) - (eqn2 * eqn3)) / denom;
+
+      return true;
+   }
+
+   template <typename T>
+   inline point2d<T> trilateration(const circle<T>& c0, const circle<T>& c1, const circle<T>& c2)
+   {
+      point2d<T> p;
+
+      const bool result = trilateration
+                          (
+                            c0.x, c0.y, c0.radius,
+                            c1.x, c1.y, c1.radius,
+                            c2.x, c2.y, c2.radius,
+                            p.x,   p.y
+                          );
+
+      return result ? p : degenerate_point2d<T>();
+   }
+
+   template <typename T>
    inline void incenter(const T& x1, const T& y1,
                         const T& x2, const T& y2,
                         const T& x3, const T& y3,

@@ -2207,6 +2207,13 @@ namespace wykobi
    template <typename T>
    inline point2d<T> torricelli_point(const triangle<T,2>& triangle);
 
+   template <typename T> inline bool trilateration(const T& c0x, const T& c0y, const T& c0r,
+                                                   const T& c1x, const T& c1y, const T& c1r,
+                                                   const T& c2x, const T& c2y, const T& c2r,
+                                                         T&  px,       T&  py);
+
+   template <typename T> inline point2d<T> trilateration(const circle<T>& c0, const circle<T>& c1, const circle<T>& c2);
+
    template <typename T>
    inline void incenter(const T& x1, const T& y1,
                         const T& x2, const T& y2,

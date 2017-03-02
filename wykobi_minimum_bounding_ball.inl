@@ -256,20 +256,16 @@ namespace wykobi
             T span_x   = distance(max_x,min_x);
             T span_y   = distance(max_y,min_y);
 
-            T max_span = -infinity<T>();
-
             point2d<T> dia1 = negative_infinite_point2d<T>();
             point2d<T> dia2 = negative_infinite_point2d<T>();
 
             if (span_x > span_y)
             {
-               max_span = span_x;
                dia1     = min_x;
                dia2     = max_x;
             }
             else
             {
-               max_span = span_y;
                dia1     = min_y;
                dia2     = max_y;
             }
