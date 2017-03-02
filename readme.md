@@ -109,6 +109,7 @@ except in accordance with the terms of the MIT License.
 * Symmedial triangle
 * Symmedian point
 * Torricelli point
+* Trilateration
 * Triangle median
 * Triangle symmedian
 * and plenty more...
